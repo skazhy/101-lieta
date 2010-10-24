@@ -1,0 +1,31 @@
+body {
+	margin:0 auto;
+}
+
+#content {
+	width:90%;
+	padding:10px;
+}
+
+li {
+	display: inline;
+	margin-left:10px;
+}
+
+ul {
+	margin: 0 auto;
+	width:100%;
+	background-color:#555555;
+	padding:20px;
+}
+
+a {
+	color:white;
+	text-decoration:none;
+}
+
+.editl {
+margin:20px;
+padding: 20px 0;
+border-bottom:2px solid #555555;
+}

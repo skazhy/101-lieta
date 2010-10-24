@@ -1,0 +1,34 @@
+application: 1001diena 
+version: 1-0
+runtime: python
+api_version: 1
+
+handlers:
+- url: /
+  script: main.py
+
+- url: /admin.*
+  script: admin.py
+  login: required
+
+- url: /logs
+  script: logs.py
+
+- url: /logs/(\d{1,2})
+  script: logs.py
+
+- url: /s/(\d{1,2}|10[10])
+  script: stuff.py
+
+- url: /stuff
+  script: stuff.py
+
+- url: /info
+  script: info.py
+
+# Static directories
+- url: /css
+  static_dir: css
+
+- url: /img
+  static_dir: img

@@ -1,0 +1,24 @@
+{% extends "base-public.html" %}
+{% block header %}
+<link rel="stylesheet" type="text/css" media="screen" href="/css/stuff.css" />
+{% endblock %}
+{% block saturs %}
+	<div id="se">
+	{% for astuff in stuff %}
+		<h2>{{ astuff.content }}</h2>
+		{% if astuff.completed %}
+			<p>Izpildīts: Jā</p>
+			<p>100% ({{ astuff.total}} / {{ astuff.total }})</p>
+		{% else %}
+			<p>Izpildīts: Nē</p>
+			<p>{{astuff.percent}}% ({{ astuff.progress }} / {{ astuff.total }})</p>
+		{% endif %}
+	{% endfor %}
+	</div>
+	{% for log in logs %}
+	<div class="aboutText">
+		<p class="logcontent"> {{ log.content }}</p>
+		<p class="lightBlue"> {{log.daynr.days }}. diena {{ log.combo }}</p>
+	</div>
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base-public.html" %}
+{% block saturs %}
+	{% for log in logs %}
+	<div class="aboutText">
+		<p class="logcontent"> {{ log.content }}</p>
+		{% ifequal log.number 0 %}
+			<span class="lightRed"><a href="/s/0">Vispārīgs ieraksts</a> | </span> 
+		{% endifequal %}
+		{% ifnotequal log.number 0 %}
+			 <span class="lightRed"><a href="/s/{{ log.number }}">Ieraksts par {{ log.number }}. mērķi</a> /</span> 
+		{% endifnotequal %}
+		 <span class="lightBlue"> {{log.daynr.days }}. diena {{ log.combo }}</span>
+	</div>
+	{% endfor %}
+	{% if older %}
+		<a id = "olderlogs" href="/logs/{{ older }}">vecāki ieraksti</a>
+	{% endif %}
+	{% if newer %}
+		{% ifequal newer 1 %}
+		<a id="newerlogs" href="/logs">jaunāki ieraksti</a>
+		{% endifequal %}
+		{% ifnotequal newer 1 %}
+		<a id="newerlogs" href="/logs/{{ newer }}">jaunāki ieraksti</a>
+		{% endifnotequal %}
+	{% endif %}
+{% endblock %}

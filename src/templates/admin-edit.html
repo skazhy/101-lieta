@@ -1,0 +1,23 @@
+{% extends "base-admin.html" %}
+{% block saturs %}
+	{% for log in logs %}
+		<form class="editl" action="/admin/writel" method="post">
+			<input type="text" name="number" value="{{ log.number }}" /><br />
+			<textarea name="content" rows="2" cols="100">{{ log.content}}</textarea>
+			<input type="hidden" name="counter" value="{{ forloop.counter0 }}" />
+			<input type="submit" value="Edit log"/>
+		</form>
+	{% endfor%}
+	{% for stuff in stufflist %}
+		<form class="edits" action="/admin/writes" method="post">
+			<span class="stuffnumber">{{ stuff.number }}.</span>
+			<input type="hidden" name="stuffnumber" value="{{ stuff.number }}" />
+			<input type="text" name="stuffcontent" value="{{ stuff.content }}" />
+			<input type="text" name="stuffprogress" value="{{ stuff.progress }}" />
+			<input type="text" name="stufftotal" value="{{ stuff.total }}" />
+			<span class="stuffcomplete">{{ stuff.completed }}</span>
+			<br /><input type="submit" value="Labot" />	
+		</form>
+	{% endfor %}
+{% endblock %}
+

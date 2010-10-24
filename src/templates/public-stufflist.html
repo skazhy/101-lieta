@@ -1,0 +1,20 @@
+{% extends "base-public.html" %}
+{% block header %}
+<link rel="stylesheet" type="text/css" media="screen" href="css/stuff.css" />
+{% endblock %}
+{% block saturs %}
+	<p id="stufflist">Zemāk ir redzams 101 lietas saraksts. Lietas tajā sakārtotas vairāk vai mazāk nejauši. Sarkanās &amp; izsvītrotās lietas jau ir paveiktas! Sīkāk vari par katru no plāna punktiem palasīt paspaidot uz tā. Pelēkajā krāsā pie katra ieraksta ir parādīts, cik ir paveikts.</p>
+	{% for stuff in stufflist %}
+	<div class="stuffentry">
+	{% if stuff.completed %}
+		<span class="comp">{{ stuff.number }}.</span>
+		<span class="comp lightRed"><a href="/s/{{ stuff.number }}"> {{ stuff.content }}</a></span>
+		<span class="comp">[ {{stuff.progress}} | {{stuff.total}} ]</span>
+	{% else %}
+		<span>{{ stuff.number }}.</span>
+		<span class="incomp"><a href="/s/{{ stuff.number }}">{{ stuff.content }}</a></span>
+		<span class="stuffprogress">[ {{stuff.progress}} | {{stuff.total}} ]</span>
+	{% endif %}
+	</div>
+	{% endfor %}
+{% endblock %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>101 lieta 1001 dienā</title>
+	<link rel="stylesheet" href="/css/pub.css" type="text/css" media="screen" charset="utf-8" />
+	{% block header %}
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+  
+  <script>
+  $(document).ready(function() {
+    $("#daysbar").progressbar({ value: {{ day_percent }} });
+    $("#tasksbar").progressbar({ value: {{ task_percent }} });
+  });
+  </script>
+		
+	{% endblock %}
+</head>
+<body>
+<div id="globalWrap">
+	<div id="header">
+		<a href="/"><img id="logoImg" src="/img/logo.png" alt="101 lieta 1001 dienā" /></a>
+		<ul id="menu">
+			<li class="lightBlue"><a href="/stuff">101 lieta</a></li>
+			<li class="lightRed"><a href="/logs">pieraksti</a></li>
+			<li class="lightBlue"><a href="/info">par projektu</a></li>
+		</ul>
+	</div>
+	<div id="contentWrap">
+		{% block saturs %}
+	<p class="frontPage">Čau! 101lieta.lv ir projekts, kurā es cenšos izpildīt sev uzstādītu 101 mērķi 1001 dienas laikā. Projekta ideja ir radusies no <a href="http://dayzeroproject.com/about/">Day Zero projekta</a>. Visu lietu sarakstu vari apskatīt <a href="/stuff">šeit</a>, bet pieraksti no notikumu vietas ir lasāmi <a href="/logs">šajā sadaļā</a>.
+	</p>
+	<p class="frontPage">Tagad rit projekta {{ current_day }}. diena, rekur aizkrāsotā daļa jau ir aizvadīta:</p>	
+		<div id="daysbar"></div>	
+	<p class="frontPage">Šobrīd ir izpildīti {{ completed }} mērķi no 101, iesākti ir {{ started }} mērķi.</p>	
+		<div id="tasksbar"></div>	
+	{% endblock %}
+	</div>	
+</div>
+<div id="footer">
+	<a href="http://adfreeblog.org"><img id="adfree" src="/img/adfreebutton.jpg" alt="Ad Free Blog"/></a>
+	<a href="http://en.wikipedia.org/wiki/Copyleft"><img id="adfree" src="/img/copyleft.png" alt="Copyleft content"/></a>
+</div>
+</body>
+</html>
