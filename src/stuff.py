@@ -24,10 +24,9 @@ class StuffEntry(webapp.RequestHandler):
 		
 		stuff_query = Stuff.all().filter('number = ', post)
 		stuff = stuff_query.fetch(limit=1)
-		
-		stuff[-1].percent = round((stuff[-1].progress*100.0 / stuff[-1].total),2)
-		round(stuff[-1].percent)
-		
+		for aStuff in stuff:
+			aStuff.percent = round((aStuff.progress*100.0 / aStuff.total),2)
+			round(aStuff.percent)
 		log_query = Log.all().filter('number = ',post).order('-date')
 		logs = log_query.fetch(limit=30)
 		

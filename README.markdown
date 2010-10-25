@@ -8,5 +8,5 @@ Currently it is very minimalistic (just the basic functionality that I need), ad
 
 Usage
 ===
-Currently there is no rich text editing support in the admin panel, so you'll have to use HTML tags. If you wish to use it, feel free to modify the code, and let me know about your modifications, so I can add them to the master branch. Currently I am using the revision of initial commit in www.101lieta.lv
+Currently there is no rich text editing support in the admin panel, so you'll have to use HTML tags. If you wish to use it, feel free to modify the code, and let me know about your modifications, so I can add them to the master branch.
 Also, text in main page and info page is written directly into templates.
