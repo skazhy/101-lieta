@@ -4,18 +4,28 @@ from dbmodels import Stuff, Log
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
+from google.appengine.api import memcache
 
 class StuffMain(webapp.RequestHandler):
     def get(self):
-		query = Stuff.all().order('number')
-		stuff = query.fetch(limit=101)
-		
-		template_values = {
-			'stufflist':stuff
-		}
-		
-		path = os.path.join(os.path.dirname(__file__), 'templates/public-stufflist.html')
-		self.response.out.write(template.render(path, template_values))
+        stuff_page = self.getStuff()
+        self.response.out.write(stuff_page)
+
+    def getStuff(self):
+        stuff_page = memcache.get("stuff_page")
+        if stuff_page is not None:
+            return stuff_page
+        else:
+            stuff_page = self.renderStuff()
+            memcache.add("stuff_page",stuff_page,600)
+            return stuff_page
+    
+    def renderStuff(self):
+        stuff_query = Stuff.all().order('number')
+        stuff = stuff_query.fetch(limit=101)
+        template_values = { 'stufflist':stuff }
+        path = os.path.join(os.path.dirname(__file__), 'templates/public-stufflist.html')
+        return template.render(path, template_values)
 
 class StuffEntry(webapp.RequestHandler):
     def get(self, post):

@@ -46,45 +46,47 @@ class WriteLog(webapp.RequestHandler):
 # editing existing entry
 class WriteStuff(webapp.RequestHandler):
     def post(self):
-    	if users.is_current_user_admin():
-			number = int(self.request.get('stuffnumber'))
-			stuffToEdit = db.GqlQuery("SELECT * FROM Stuff WHERE number = %s LIMIT 1" % number)
-			result = stuffToEdit.get()
-			result.content = self.request.get('stuffcontent')
-			result.progress  = int(self.request.get('stuffprogress'))
-			result.total  = int(self.request.get('stufftotal'))
-			result.completed = False
-			if(result.total <= result.progress):
-				result.completed = True
-			db.put(result)	
-			self.redirect('/admin/edit_stuff')
+        if users.is_current_user_admin():
+            number = int(self.request.get('stuffnumber'))
+            stuffToEdit = db.GqlQuery("SELECT * FROM Stuff WHERE number = %s LIMIT 1" % number)
+            result = stuffToEdit.get()
+            result.content = self.request.get('stuffcontent')
+            result.progress  = int(self.request.get('stuffprogress'))
+            result.total  = int(self.request.get('stufftotal'))
+            result.completed = False
+            if(result.total <= result.progress):
+                result.completed = True
+            memcache.delete('stuff_page')
+            db.put(result)
+            self.redirect('/admin/edit_stuff')
         else:
-			self.redirect('/')
+            self.redirect('/')
 
 # adding new entry from admin main
 class PostEntry(webapp.RequestHandler):
     def post(self, mode):
-    	if users.is_current_user_admin():
-			if mode == "stuff":
-				stuff = Stuff()
-				stuff.number = int(self.request.get('number'))
-				stuff.content = self.request.get('content')
-				stuff.progress = int(self.request.get('progress'))
-				stuff.total = int(self.request.get('total'))
-				if stuff.progress >= stuff.total:
-					stuff.completed = False
-				else:
-					stuff.completed = False
-				stuff.put()
-			if mode == "log":
-				log = Log()
-				log.content = self.request.get('content')
-				log.number = int(self.request.get('number'))
-				log.date = datetime.datetime.now()
-				log.put()
-			self.redirect('/admin')
+        if users.is_current_user_admin():
+            if mode == "stuff":
+                stuff = Stuff()
+                stuff.number = int(self.request.get('number'))
+                stuff.content = self.request.get('content')
+                stuff.progress = int(self.request.get('progress'))
+                stuff.total = int(self.request.get('total'))
+                if stuff.progress >= stuff.total:
+                    stuff.completed = False
+                else:
+                    stuff.completed = False
+                memcache.delet('stuff_page')
+                stuff.put()
+            if mode == "log":
+                log = Log()
+                log.content = self.request.get('content')
+                log.number = int(self.request.get('number'))
+                log.date = datetime.datetime.now()
+                log.put()
+            self.redirect('/admin')
         else:
-			self.redirect('/')
+            self.redirect('/')
 
 application = webapp.WSGIApplication([('/admin', AdminMain),('/admin/edit_(.*)',EditEntry),('/admin/post_(.*)',PostEntry),
 									('/admin/writes',WriteStuff),('/admin/writel',WriteLog)], debug=True)
