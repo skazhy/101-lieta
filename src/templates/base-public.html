@@ -32,9 +32,8 @@
 	</div>
 	<div id="contentWrap">
 		{% block saturs %}
-	<p class="frontPage">Čau! 101lieta.lv ir projekts, kurā es cenšos izpildīt sev uzstādītu 101 mērķi 1001 dienas laikā. Projekta ideja ir radusies no <a href="http://dayzeroproject.com/about/">Day Zero projekta</a>. Visu lietu sarakstu vari apskatīt <a href="/stuff">šeit</a>, bet pieraksti no notikumu vietas ir lasāmi <a href="/logs">šajā sadaļā</a>.
-	</p>
-	<p class="frontPage">Tagad rit projekta {{ current_day }}. diena, rekur aizkrāsotā daļa jau ir aizvadīta:</p>	
+	{{ tt }}
+    <p class="frontPage">Tagad rit projekta {{ current_day }}. diena, rekur aizkrāsotā daļa jau ir aizvadīta:</p>	
 		<div id="daysbar"></div>	
 	<p class="frontPage">Šobrīd ir izpildīti {{ completed }} mērķi no 101, iesākti ir {{ started }} mērķi.</p>	
 		<div id="tasksbar"></div>	

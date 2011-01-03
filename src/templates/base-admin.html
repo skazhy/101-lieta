@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>v4.1.1 admin panel</title>
+	<title>101l-1001d admin panel</title>
 	<link rel="stylesheet" href="/css/adm.css" type="text/css" media="screen" charset="utf-8" />
 </head>
 <body>
@@ -13,6 +13,7 @@
 		<li><a href="/admin">Admin home</a></li>
 		<li><a href="/admin/edit_log">Edit logs</a></li>
 		<li><a href="/admin/edit_stuff">Edit stuff</a></li>
+		<li><a href="/admin/edit_ttext">Edit text</a></li>
 	</ul>
 </div>
 <div id="content">
@@ -30,6 +31,12 @@
 				<div><span>Progress:</span><input type="text" name="progress" value="0" /><div />
 				<div><span>Kopējais:</span><input type="text" name="total" value="" /><div />
                 <div><input type="submit" value="Add stuff"></div>
+	</form>
+	<h2>Add template text</h2>
+	<form action="/admin/post_ttext" method="post">
+				<div><input type="text" name="name_short" value="" /><div />
+				<textarea name="content" rows="3" cols="60"></textarea>
+                <div><input type="submit" value="Add txt"></div>
 	</form>
 {% endblock saturs %}
 </div>

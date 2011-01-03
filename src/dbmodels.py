@@ -1,6 +1,5 @@
 from google.appengine.ext import db
 
-
 class Stuff(db.Model):
 	number = db.IntegerProperty()
 	content = db.StringProperty()
@@ -12,3 +11,7 @@ class Log(db.Model):
 	number = db.IntegerProperty()
 	content = db.TextProperty()
 	date = db.DateTimeProperty()
+
+class TemplateText(db.Model):
+    name_short = db.StringProperty()
+    content = db.TextProperty()

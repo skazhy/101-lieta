@@ -1,4 +1,4 @@
-import os, datetime
+import os, datetime, dbfunctions
 from datetime import timedelta
 from dbmodels import Stuff
 from google.appengine.ext import webapp
@@ -23,7 +23,7 @@ class MainPage(webapp.RequestHandler):
     
     def renderMain(self):
         start_date = datetime.datetime(2010,10,11,0,0)
-        todays_date = datetime.datetime.now()
+        todays_date = datetime.datetime.now()+timedelta(hours=2)
         done_days = todays_date - start_date
         day_percent = int(done_days.days*100/1001)
         current_day = done_days - timedelta(days=-1)
@@ -34,13 +34,15 @@ class MainPage(webapp.RequestHandler):
         task_query = Stuff.all().filter('progress > ', 0)
         started = task_query.fetch(limit=101)
         started_count = len(started)
-        task_percent = int(comp_count*100/101)	
+        task_percent = int(comp_count*100/101)
+        text = dbfunctions.get_tt('main')
         template_values = {
                 'current_day':current_day.days,
                 'day_percent':day_percent,
                 'task_percent':task_percent,
                 'started':started_count,
-                'completed':comp_count
+                'completed':comp_count,
+                'tt':text
         }
         
         path = os.path.join(os.path.dirname(__file__),'templates/base-public.html')

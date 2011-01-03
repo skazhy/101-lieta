@@ -1,4 +1,4 @@
-import os, math, datetime
+import os, math, datetime, dbfunctions
 from datetime import timedelta
 from dbmodels import Stuff, Log
 from google.appengine.ext import webapp
@@ -21,9 +21,12 @@ class StuffMain(webapp.RequestHandler):
             return stuff_page
     
     def renderStuff(self):
+        text = dbfunctions.get_tt('stuff')
         stuff_query = Stuff.all().order('number')
         stuff = stuff_query.fetch(limit=101)
-        template_values = { 'stufflist':stuff }
+        template_values = { 'stufflist':stuff,
+                            'tt': text
+                          }
         path = os.path.join(os.path.dirname(__file__), 'templates/public-stufflist.html')
         return template.render(path, template_values)
 
