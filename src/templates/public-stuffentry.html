@@ -17,7 +17,7 @@
 	</div>
 	{% for log in logs %}
 	<div class="aboutText">
-		<p class="logcontent"> {{ log.content }}</p>
+		<p class="logcontent"> {{ log.display }}</p>
 		<p class="lightBlue"> {{log.daynr.days }}. diena {{ log.combo }}</p>
 	</div>
 	{% endfor %}

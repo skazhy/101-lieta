@@ -2,7 +2,7 @@
 {% block saturs %}
 	{% for log in logs %}
 	<div class="aboutText">
-		<p class="logcontent"> {{ log.content }}</p>
+		<p class="logcontent"> {{ log.display }}</p>
 		{% ifequal log.number 0 %}
 			<span class="lightRed"><a href="/s/0">Vispārīgs ieraksts</a> | </span> 
 		{% endifequal %}

@@ -1,5 +1,7 @@
 from dbmodels import *
+from markdown import *
 
 def get_tt(key):
+    md = Markdown()
     txt = TemplateText.all().filter('name_short = ', key)
-    return txt[0].content
+    return md.convert(txt[0].content)

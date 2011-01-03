@@ -1,4 +1,5 @@
 import os, datetime
+from markdown import *
 from datetime import timedelta
 from dbmodels import Log
 from google.appengine.ext import webapp
@@ -25,7 +26,9 @@ class LogPage(webapp.RequestHandler):
         if len(logs) == 0:
             older=newer=False
         
+        md = Markdown()
         for log in logs:
+            log.display = md.convert(log.content)
             log.daynr = log.date - start_dt - timedelta(days=-1)
             log.combo = log.date.strftime("%H:%M, %d-%m-%Y")
         

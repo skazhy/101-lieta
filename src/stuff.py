@@ -1,4 +1,5 @@
 import os, math, datetime, dbfunctions
+from markdown import *
 from datetime import timedelta
 from dbmodels import Stuff, Log
 from google.appengine.ext import webapp
@@ -42,8 +43,9 @@ class StuffEntry(webapp.RequestHandler):
 			round(aStuff.percent)
 		log_query = Log.all().filter('number = ',post).order('-date')
 		logs = log_query.fetch(limit=30)
-		
+	    md = Markdown()	
 		for log in logs:
+            log.display = md.convert(log.content)
 			log.daynr = diffCurrent = log.date - start_date - timedelta(days=-1)
 			log.combo = log.date.strftime("%H:%M, %d-%m-%Y")	
 		
