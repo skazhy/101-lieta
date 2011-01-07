@@ -3,6 +3,7 @@ import datetime
 import os
 
 from dbmodels import *
+from settings import *
 from datetime import timedelta 
 
 from google.appengine.ext import webapp
@@ -82,7 +83,7 @@ class PostEntry(webapp.RequestHandler):
     def post(self, mode):
         if users.is_current_user_admin():
             # Difference from UTF time.
-            td = timedelta(hours=2)
+            td = timedelta(hours=UTCDIFF)
             
             if mode == "stuff":
                 stuff = Stuff()

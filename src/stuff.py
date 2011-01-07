@@ -6,6 +6,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
+from settings import *
 
 class StuffMain(webapp.RequestHandler):
     def get(self):
@@ -33,28 +34,28 @@ class StuffMain(webapp.RequestHandler):
 
 class StuffEntry(webapp.RequestHandler):
     def get(self, post):
-		post = int(post)
-		start_date = datetime.datetime(2010,10,11,0,0) 
-		
-		stuff_query = Stuff.all().filter('number = ', post)
-		stuff = stuff_query.fetch(limit=1)
-		for aStuff in stuff:
-			aStuff.percent = round((aStuff.progress*100.0 / aStuff.total),2)
-			round(aStuff.percent)
-		log_query = Log.all().filter('number = ',post).order('-date')
-		logs = log_query.fetch(limit=30)
-	    md = Markdown()	
-		for log in logs:
+        post = int(post)
+        start_date = datetime.datetime(S_YEAR, S_MONTH, S_DAY, 0, 0) 
+        
+        stuff_query = Stuff.all().filter('number = ', post)
+        stuff = stuff_query.fetch(limit=1)
+        for aStuff in stuff:
+            aStuff.percent = round((aStuff.progress*100.0 / aStuff.total),2)
+            round(aStuff.percent)
+        log_query = Log.all().filter('number = ',post).order('-date')
+        logs = log_query.fetch(limit=30)
+        md = Markdown()    
+        for log in logs:
             log.display = md.convert(log.content)
-			log.daynr = diffCurrent = log.date - start_date - timedelta(days=-1)
-			log.combo = log.date.strftime("%H:%M, %d-%m-%Y")	
-		
-		template_values = {
-			'stuff':stuff,
-			'logs':logs
-		}
-		path = os.path.join(os.path.dirname(__file__), 'templates/public-stuffentry.html')
-		self.response.out.write(template.render(path, template_values))
+            log.daynr = diffCurrent = log.date - start_date - timedelta(days=-1)
+            log.combo = log.date.strftime(LOG_DATE)    
+        
+        template_values = {
+            'stuff':stuff,
+            'logs':logs
+        }
+        path = os.path.join(os.path.dirname(__file__), 'templates/public-stuffentry.html')
+        self.response.out.write(template.render(path, template_values))
 
 application = webapp.WSGIApplication([('/s/(.*)', StuffEntry),('/stuff', StuffMain)],
                                      debug=False)

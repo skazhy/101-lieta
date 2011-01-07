@@ -5,20 +5,20 @@ from dbmodels import Log
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
+from settings import *
 
 class LogPage(webapp.RequestHandler):
     def get(self,page=1):
-        epp = 10
-        start_dt = datetime.datetime(2010,10,11,0,0)
+        start_dt = datetime.datetime(S_YEAR, S_MONTH, S_DAY, 0, 0)
         print start_dt
         page = int(page)
         older = newer = False
-        offset = page*epp-epp
+        offset = page*EPP-EPP
 
         logs_query = Log.all().order('-date')
-        logs = logs_query.fetch(limit = epp+1, offset = offset)
+        logs = logs_query.fetch(limit = EPP+1, offset = offset)
         
-        if len(logs) == epp+1:
+        if len(logs) == EPP+1:
             older = page+1
             logs.pop()
         if offset > 0:
@@ -30,7 +30,7 @@ class LogPage(webapp.RequestHandler):
         for log in logs:
             log.display = md.convert(log.content)
             log.daynr = log.date - start_dt - timedelta(days=-1)
-            log.combo = log.date.strftime("%H:%M, %d-%m-%Y")
+            log.combo = log.date.strftime(LOG_DATE)
         
         template_values = {
             'logs':logs,

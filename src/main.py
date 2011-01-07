@@ -5,6 +5,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
+from settings import *
 
 class MainPage(webapp.RequestHandler):
     def get(self):
@@ -22,8 +23,8 @@ class MainPage(webapp.RequestHandler):
             return main_page
     
     def renderMain(self):
-        start_date = datetime.datetime(2010,10,11,0,0)
-        todays_date = datetime.datetime.now()+timedelta(hours=2)
+        start_date = datetime.datetime(S_YEAR, S_MONTH,S_DAY,0,0)
+        todays_date = datetime.datetime.now()+timedelta(hours=UTCDIFF)
         done_days = todays_date - start_date
         day_percent = int(done_days.days*100/1001)
         current_day = done_days - timedelta(days=-1)
