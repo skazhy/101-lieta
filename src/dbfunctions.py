@@ -67,3 +67,33 @@ def get_all_stuff():
         if s.completed:
             s.status = 'status_c'
     return stuff
+
+def save_log(req, mode='edit'):
+    if mode == 'edit':
+        log = db.get(req.get('id'))
+    if mode == 'new':
+        log = Log()
+        log.date = datetime.datetime.now() + timedelta(hours=UTCDIFF)
+    
+    str_numbers = req.get('number').split(' ')
+    log.numbers=[]
+    for n in str_numbers:
+        log.numbers.append(int(n))
+    log.numbers.sort()
+    log.content = req.get('content')
+    db.put(log)    
+
+def save_stuff(req, mode='edit'):
+    if mode == 'edit':
+        stuff = db.get(req.get('id'))
+    if mode == 'new':
+        stuff = Stuff()
+        stuff.number = int(req.get('number'))
+    stuff.content = req.get('content')
+    stuff.progress = int(req.get('progress'))
+    stuff.total = int(req.get('total'))
+    if stuff.progress >= stuff.total:
+        stuff.completed = False
+    else:
+        stuff.completed = False
+    db.put(stuff)

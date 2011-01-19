@@ -3,12 +3,10 @@ from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.api import users, memcache
 import cgi
-import datetime
 import os
-
+import dbfunctions
 from dbmodels import *
 from settings import *
-from datetime import timedelta 
 
 
 class AdminMain(webapp.RequestHandler):
@@ -27,16 +25,16 @@ class EditEntry(webapp.RequestHandler):
         if users.is_current_user_admin():
             template_values = {}
             if mode == "log":
-                logs = db.GqlQuery("SELECT * FROM Log ORDER BY date DESC LIMIT 39")
-                for log in logs:
+                logs = dbfunctions.get_logs(1)
+                for log in logs[0]:
                     log.numb = ''
                     for n in log.numbers:
                         log.numb += str(n) + ' '
                     log.numb = log.numb[:-1]
-                template_values = {'logs' : logs}
+                template_values = {'logs': logs[0]}
             if mode == "stuff":
-                stufflist = db.GqlQuery("SELECT * FROM Stuff ORDER BY number ASC")
-                template_values = {'stufflist' : stufflist}
+                stuff = dbfunctions.get_stuff()
+                template_values = {'stufflist': stufflist}
             if mode == "ttext":
                 tt = db.GqlQuery("SELECT * FROM TemplateText")
                 template_values = {'tt' : tt}
@@ -46,21 +44,22 @@ class EditEntry(webapp.RequestHandler):
         else:
             self.redirect('/')
 
+# editing existing entry
 class WriteLog(webapp.RequestHandler):
     def post(self):
         if users.is_current_user_admin():
-            log = db.get(self.request.get('id'))
-            tn = self.request.get('number').split(' ')
-            log.numbers=[]
-            for n in tn:
-                log.numbers.append(int(n))
-            log.numbers.sort()
-            log.content = self.request.get('content')
-            db.put(log)    
+            dbfunctions.save_log(self.request)
+            memcache.delete('main_page')
             self.redirect('/admin/edit_log')
         else:
             self.redirect('/')
-
+class WriteStuff(webapp.RequestHandler):
+    def post(self):
+        if users.is_current_user_admin():
+            memcache.delete('stuff_page')
+            self.redirect('/admin/edit_stuff')
+        else:
+            self.redirect('/')
 class WriteTtext(webapp.RequestHandler):
     def post(self):
         if users.is_current_user_admin():
@@ -71,52 +70,16 @@ class WriteTtext(webapp.RequestHandler):
         else:
             self.redirect('/')
     
-# editing existing entry
-class WriteStuff(webapp.RequestHandler):
-    def post(self):
-        if users.is_current_user_admin():
-            stuff = db.get(self.request.get('id'))
-            stuff.content = self.request.get('stuffcontent')
-            stuff.progress  = int(self.request.get('stuffprogress'))
-            stuff.total  = int(self.request.get('stufftotal'))
-            stuff.completed = False
-            if(stuff.total <= stuff.progress):
-                stuff.completed = True
-            memcache.delete('main_page')
-            memcache.delete('stuff_page')
-            db.put(stuff)
-            self.redirect('/admin/edit_stuff')
-        else:
-            self.redirect('/')
-
 # adding new entry from admin main
 class PostEntry(webapp.RequestHandler):
     def post(self, mode):
         if users.is_current_user_admin():
-            # Difference from UTF time.
-            td = timedelta(hours=UTCDIFF)
-            
-            if mode == "stuff":
-                stuff = Stuff()
-                stuff.number = int(self.request.get('number'))
-                stuff.content = self.request.get('content')
-                stuff.progress = int(self.request.get('progress'))
-                stuff.total = int(self.request.get('total'))
-                if stuff.progress >= stuff.total:
-                    stuff.completed = False
-                else:
-                    stuff.completed = False
-                memcache.delete('stuff_page')
-                stuff.put()
             if mode == "log":
-                log = Log()
-                tn = self.request.get('number').split(' ')
-                for n in tn:
-                    log.numbers.append(int(n))
-                log.numbers.sort()
-                log.date = datetime.datetime.now() + td
-                log.content = self.request.get('content')
-                log.put()
+                dbfunctions.save_log(self.request,'new')
+                memcache.delete('main_page')
+            if mode == "stuff":
+                dbfunctions.save_stuff(self.request,'new')
+                memcache.delete('stuff_page')
             if mode == "ttext":
                 ttext = TemplateText()
                 ttext.content = self.request.get('content')
