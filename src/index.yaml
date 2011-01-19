@@ -12,6 +12,6 @@ indexes:
 
 - kind: Log
   properties:
-  - name: number
+  - name: numbers
   - name: date
     direction: desc

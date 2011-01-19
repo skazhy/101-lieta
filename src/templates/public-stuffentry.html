@@ -25,8 +25,8 @@ $(document).ready(function() {
 {% block content %}
 <div class="grid_8">	
     <h1>#{{ stuff.number }} - {{ stuff.content }}</h1>
-	<div id="stuff_progress"></div>
-    <p>Šībrīža progress:
+    <div id="stuff_progress"></div>
+    <p id="progress">Šībrīža progress:
     {{ stuff.percent }}% ({{ stuff.progress }} / {{ stuff.total }})</p>
 	
 {% for log in logs %}
@@ -38,12 +38,12 @@ $(document).ready(function() {
     <div class="afterEntry">
         <span class="date"> {{ log.daynr.days }}. diena,</span>
         <span class="date">{{ log.combo }}</span>
-        {% if log.number %}
-        <br />
-        <span class="desc">Citi saistītie mērķi:</span>
-        {% for s in log.number %}
+        {% if log.numbers %}
+            <br />
+            <span class="desc">Citi saistītie mērķi:</span>
+            {% for s in log.numbers %}
             <a class="goalLink" href="/s/{{ s }}">#{{ s }}</a>
-        {% endfor %}
+            {% endfor %}
         {% endif %}
     </div>
 {% endfor %}

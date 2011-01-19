@@ -42,11 +42,11 @@ a { text-decoration:none; }
     font-size:14px;
 }
 
-#info p .extLink {
+.extLink {
     padding:1px;
     color:#69434e;
 }
-#info p .extLink:hover, a.footLink:hover {
+.extLink:hover, a.footLink:hover {
     background-color: #b3d9e2;
     color:#69434e;
 }
@@ -120,4 +120,9 @@ li#menu_header:hover { background-color:#e8ebef; }
 
 .status_c {
     text-decoration:line-through;
+}
+
+#progress {
+    margin:20px 0;
+    color: #69434e;
 }

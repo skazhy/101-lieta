@@ -10,7 +10,7 @@
 	{% endfor %}
 	{% for log in logs %}
 		<form class="editl" action="/admin/writel" method="post">
-			<input type="text" name="number" value="{{ log.num }}" /><br />
+			<input type="text" name="number" value="{{ log.numbers }}" /><br />
 			<textarea name="content" rows="2" cols="100">{{ log.content}}</textarea>
 			<input type="hidden" name="id" value="{{ log.key }}" />
 			<input type="submit" value="Edit log"/>

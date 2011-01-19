@@ -48,7 +48,7 @@ class StuffEntry(webapp.RequestHandler):
 application = webapp.WSGIApplication([('/s/(\d+)/(\d+)', StuffEntry),
                                       ('/stuff', StuffMain),
                                       ('/s/(.*)', StuffEntry)],
-                                     debug=False)
+                                     debug=True)
 
 def main():
     run_wsgi_app(application)

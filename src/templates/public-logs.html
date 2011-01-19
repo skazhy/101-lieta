@@ -11,7 +11,7 @@
         <span class="date"> {{ log.daynr.days }}. diena,</span>
         <span class="date">{{ log.combo }}.</span>
         <span class="desc">Saistītie mērķi:</span>
-        {% for s in log.number %}
+        {% for s in log.numbers %}
             <a class="goalLink" href="/s/{{ s }}">#{{ s }}</a>
         {% endfor %}
     </div>
@@ -21,15 +21,15 @@
         {% ifequal newer 0 %}
             <a class="navbutton" href="/">Jaunāki pieraksti</a>
         {% else %}
-            <a class="navbutton" href="/l/{{ newer }}">Jaunāki pieraksti</a>
+            <a class="navbutton" href="{{ newer }}">Jaunāki pieraksti</a>
         {% endifequal %}
     {% endif %}
     {% if spacer %}
-        <span>|</span>
+        <span class="desc">|</span>
     {% endif %}
     
     {% if older %}
-        <a class="navbutton" href="/l/{{ older }}">Vecāki pieraksti</a>
+        <a class="navbutton" href="{{ older }}">Vecāki pieraksti</a>
     {% endif %}
 </div>
 </div>

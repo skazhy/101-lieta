@@ -47,12 +47,12 @@ def get_logs(page=1,stuff=-1):
             if stuff == -1:
                 log.combo = log.date.strftime(LOG_DATE_SHORT)
             else:
-                log.number.remove(stuff)
+                log.numbers.remove(stuff)
                 log.combo = log.date.strftime(LOG_DATE)
         return [logs,older,newer,spacer]
         
 def get_stuff(post):
-    stuff = Stuff.all().filter('numbers = ',post).fetch(limit=1)
+    stuff = Stuff.all().filter('number = ',post).fetch(limit=1)
     stuff[0].percent = round((stuff[0].progress*100.0 / stuff[0].total),2)
     round(stuff[0].percent)
     return stuff[0]
