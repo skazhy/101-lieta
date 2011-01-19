@@ -13,7 +13,7 @@ LOG_DATE ="%d.%m `%y %H:%M"
 LOG_DATE_SHORT ="%d.%m"
 
 # Entries per page in log listing.
-EPP = 3
+EPP = 
 
 START_DT = datetime.datetime(S_YEAR, S_MONTH, S_DAY, 0, 0)
 

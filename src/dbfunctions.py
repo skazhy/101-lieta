@@ -18,7 +18,7 @@ def get_logs(page=1,stuff=-1):
         if stuff == -1:
             log_query.order('-date')
         else:
-            log_query.filter('number = ',stuff).order('-date')
+            log_query.filter('numbers = ',stuff).order('-date')
         logs = log_query.fetch(limit = EPP+1, offset = offset)
         if len(logs) == EPP+1:
             p_new = str(page + 1)
@@ -52,7 +52,7 @@ def get_logs(page=1,stuff=-1):
         return [logs,older,newer,spacer]
         
 def get_stuff(post):
-    stuff = Stuff.all().filter('number = ',post).fetch(limit=1)
+    stuff = Stuff.all().filter('numbers = ',post).fetch(limit=1)
     stuff[0].percent = round((stuff[0].progress*100.0 / stuff[0].total),2)
     round(stuff[0].percent)
     return stuff[0]

@@ -8,7 +8,8 @@ class Stuff(db.Model):
 	total = db.IntegerProperty()
 
 class Log(db.Model):
-	number = db.ListProperty(int)
+	number = db.IntegerProperty()
+	numbers = db.ListProperty(int)
 	content = db.TextProperty()
 	date = db.DateTimeProperty()
 
