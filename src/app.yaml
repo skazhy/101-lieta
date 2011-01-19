@@ -1,7 +1,10 @@
 application: 1001diena 
-version: 2-0
+version: 2-0-1
 runtime: python
 api_version: 1
+
+builtins:
+- datastore_admin: on
 
 handlers:
 - url: /

@@ -28,8 +28,6 @@ class EditEntry(webapp.RequestHandler):
             template_values = {}
             if mode == "log":
                 logs = db.GqlQuery("SELECT * FROM Log ORDER BY date DESC LIMIT 5")
-                for log in logs:
-                    log.num = ' '.join(str(log.number))
                 template_values = {'logs' : logs}
             if mode == "stuff":
                 stufflist = db.GqlQuery("SELECT * FROM Stuff ORDER BY number ASC")
@@ -47,7 +45,10 @@ class WriteLog(webapp.RequestHandler):
     def post(self):
         if users.is_current_user_admin():
             log = db.get(self.request.get('id'))
-            log.number = int(self.request.get('number'))
+            tn = self.request.get('number').split(' ')
+            for n in tn:
+                log.number.append(int(n))
+            log.number.sort()
             log.content = self.request.get('content')
             db.put(log)    
             self.redirect('/admin/edit_log')
