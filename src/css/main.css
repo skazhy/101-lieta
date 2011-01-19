@@ -1,0 +1,123 @@
+body {
+    margin-top:20px;
+    background-color: #E8EBEF;
+}
+
+a { text-decoration:none; }
+
+.entry_text, #info p {
+    color: #19283b;
+    line-height:1.5em;
+    font-size:16px;
+    font-family:serif;
+    margin-bottom:0;
+}
+
+#sidebar { padding-top:20px; }
+
+#footer {
+    border-top: 1px dotted #b3d9e2;
+    margin-top:30px;
+    padding:10px 0;
+    text-align:center;
+}
+
+.footLink {
+    color: #19283b;
+    font-size:12px;
+}
+#footer span {
+    color:#51233d;
+    font-size:0.8em;
+}
+
+.goalLink {
+    padding:2px;
+    background-color:#69434e;
+    color:#e8ebef;
+    font-size:12px;
+}
+
+#info p .goalLink {
+    font-size:14px;
+}
+
+#info p .extLink {
+    padding:1px;
+    color:#69434e;
+}
+#info p .extLink:hover, a.footLink:hover {
+    background-color: #b3d9e2;
+    color:#69434e;
+}
+
+.date, .desc, .navbutton {
+    font-family: sans;
+    font-size:12px;
+    color: #69434e;
+}
+
+.afterEntry {
+    margin:3px 0 55px 0;
+    text-align:right;
+}
+
+ul#menulist {
+    list-style:none;
+    margin-top:30px;
+    width:60%;
+    text-align:center;
+}
+
+li.menu, li.stuff_menu {
+    padding-bottom:2px;
+    border-bottom: 1px solid #b3d9e2;
+}
+
+li.menu a, li.stuff_menu {
+    font-family:serif;
+    color:#51233d;
+}
+
+h1 {
+    font-family:serif;
+    color: #19283b;
+    text-shadow: #666 0px 0px 3px;
+}
+li#menu_header {
+    font-size:1.1em;
+    color: #19283b;
+}
+
+li.menu:hover, li.stuff_menu:hover { background-color:#b3d9e2; }
+li#menu_header:hover { background-color:#e8ebef; }
+
+#nav { 
+    margin:20px 0;
+    text-align:center;
+}
+.stuff_content {
+    margin: 0 20px 0 10px;
+}
+
+.stuff_content, .stuff_nr {
+    font-size:16px;
+    color: #19283b;
+}
+.stuff_content, .stuff_nr, .stuff_progress {
+    line-height:1.3em;
+    font-size:16px;
+    font-family:serif;
+    margin-bottom:0;
+}
+
+.stuff_progress {
+    word-spacing:-4px;
+    color: #69434e;
+    font-style:italic;
+    font-size:12px;
+}
+
+.status_c {
+    text-decoration:line-through;
+}

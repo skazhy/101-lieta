@@ -1,48 +1,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<title>101 lieta 1001 dienā</title>
-	<link rel="stylesheet" href="/css/pub.css" type="text/css" media="screen" charset="utf-8" />
-	{% block header %}
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-  
-  <script>
-  $(document).ready(function() {
-    $("#daysbar").progressbar({ value: {{ day_percent }} });
-    $("#tasksbar").progressbar({ value: {{ task_percent }} });
-  });
-  </script>
-		
-	{% endblock %}
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"0>
+    <title>101 lieta 1001 dienā</title>
+    <link rel="stylesheet" href="/css/960.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
+    {% block header_includes %}{% endblock %}
 </head>
 <body>
-<div id="globalWrap">
-	<div id="header">
-		<a href="/"><img id="logoImg" src="/img/logo.png" alt="101 lieta 1001 dienā" /></a>
-		<ul id="menu">
-			<li class="lightBlue"><a href="/stuff">101 lieta</a></li>
-			<li class="lightRed"><a href="/logs">pieraksti</a></li>
-			<li class="lightBlue"><a href="/info">par projektu</a></li>
-		</ul>
-	</div>
-	<div id="contentWrap">
-		{% block saturs %}
-	{{ tt }}
-    <p class="frontPage">Tagad rit projekta {{ current_day }}. diena, rekur aizkrāsotā daļa jau ir aizvadīta:</p>	
-		<div id="daysbar"></div>	
-	<p class="frontPage">Šobrīd ir izpildīti {{ completed }} mērķi no 101, iesākti ir {{ started }} mērķi.</p>	
-		<div id="tasksbar"></div>	
-	{% endblock %}
-	</div>	
-</div>
-<div id="footer">
-	<a href="http://adfreeblog.org"><img id="adfree" src="/img/adfreebutton.jpg" alt="Ad Free Blog"/></a>
-	<a href="http://en.wikipedia.org/wiki/Copyleft"><img id="adfree" src="/img/copyleft.png" alt="Copyleft content"/></a>
-</div>
+    <div class="container_12">
+    	<div class="grid_3" id="sidebar">
+            <img src="/img/logo.png" alt="101 lieta 1001 dienā" />
+            <ul id="menulist">
+            	<li class="menu">
+            		<a href="/">pieraksti</a>
+            	</li>
+            	<li class="menu">
+            		<a href="/stuff">101 lieta</a>
+            	</li>
+            	<!-- 
+                <li class="menu">
+            		<a href="">statistika</a>
+            	</li>
+                -->
+            	<li class="menu">
+            		<a href="/info">par projektu</a>
+            	</li>
+            </ul>
+            {% block sidebar_includes %}{% endblock %}
+        
+        </div>
+        {% block content %}{% endblock %}
+        <div class="clear"></div>
+        <div class="grid_12" id="footer">
+            <span class="desc">Lapas kods iekš </span><a class="footLink" href="https://github.com/skazhy/101-lieta">GitHub</a>
+            <span class="desc">|</span>
+            <span class="desc">Darbojās uz </span><a class="footLink" href="http://code.google.com/appengine">App Engine</a>
+            <br />
+            <span class="desc">MMX-MMXI</span>
+            <br />
+            <a class="footLink" href="http://facebook.com/skazhy">Kārlis L.</a>
+        </div>
+    </div>
 </body>
 </html>

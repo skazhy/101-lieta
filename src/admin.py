@@ -1,3 +1,7 @@
+from google.appengine.ext import webapp
+from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp.util import run_wsgi_app
+from google.appengine.api import users, memcache
 import cgi
 import datetime
 import os
@@ -6,13 +10,11 @@ from dbmodels import *
 from settings import *
 from datetime import timedelta 
 
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
-from google.appengine.ext.webapp.util import run_wsgi_app
-from google.appengine.api import users, memcache
 
 class AdminMain(webapp.RequestHandler):
     def get(self):
+        path = os.path.join(os.path.dirname(__file__), 'templates/base-admin.html')
+        self.response.out.write(template.render(path, {}))
         if users.is_current_user_admin():
             path = os.path.join(os.path.dirname(__file__), 'templates/base-admin.html')
             self.response.out.write(template.render(path, {}))
@@ -26,6 +28,8 @@ class EditEntry(webapp.RequestHandler):
             template_values = {}
             if mode == "log":
                 logs = db.GqlQuery("SELECT * FROM Log ORDER BY date DESC LIMIT 5")
+                for log in logs:
+                    log.num = ' '.join(str(log.number))
                 template_values = {'logs' : logs}
             if mode == "stuff":
                 stufflist = db.GqlQuery("SELECT * FROM Stuff ORDER BY number ASC")
@@ -99,9 +103,12 @@ class PostEntry(webapp.RequestHandler):
                 stuff.put()
             if mode == "log":
                 log = Log()
+                tn = self.request.get('number').split(' ')
+                for n in tn:
+                    log.number.append(int(n))
+                log.number.sort()
                 log.date = datetime.datetime.now() + td
                 log.content = self.request.get('content')
-                log.number = int(self.request.get('number'))
                 log.put()
             if mode == "ttext":
                 ttext = TemplateText()

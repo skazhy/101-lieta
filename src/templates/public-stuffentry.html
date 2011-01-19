@@ -1,24 +1,63 @@
 {% extends "base-public.html" %}
-{% block header %}
-<link rel="stylesheet" type="text/css" media="screen" href="/css/stuff.css" />
+
+{% block header_includes %}
+<link rel="stylesheet" href="/css/ui.css" type="text/css" />
+<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/js/jquery-ui-1.8.8.custom.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#stuff_progress').progressbar({
+        value: {{ stuff.percent }}
+    });
+});
+</script>
+<style type="text/css">
+.ui-widget-header {
+    background-color:#69434e;
+    border:1px solid#b3d9e2;
+    }
+.ui-progressbar {
+    width:60%;
+    }
+</style>
 {% endblock %}
-{% block saturs %}
-	<div id="se">
-	{% for astuff in stuff %}
-		<h2>{{ astuff.content }}</h2>
-		{% if astuff.completed %}
-			<p>Izpildīts: Jā</p>
-			<p>100% ({{ astuff.total}} / {{ astuff.total }})</p>
-		{% else %}
-			<p>Izpildīts: Nē</p>
-			<p>{{astuff.percent}}% ({{ astuff.progress }} / {{ astuff.total }})</p>
-		{% endif %}
-	{% endfor %}
-	</div>
-	{% for log in logs %}
-	<div class="aboutText">
-		<p class="logcontent"> {{ log.display }}</p>
-		<p class="lightBlue"> {{log.daynr.days }}. diena {{ log.combo }}</p>
-	</div>
-	{% endfor %}
-{% endblock %}
+
+{% block content %}
+<div class="grid_8">	
+    <h1>#{{ stuff.number }} - {{ stuff.content }}</h1>
+	<div id="stuff_progress"></div>
+    <p>Šībrīža progress:
+    {{ stuff.percent }}% ({{ stuff.progress }} / {{ stuff.total }})</p>
+	
+{% for log in logs %}
+    <div class="log_entry">
+        <p class="entry_text">
+            {{ log.display }}
+        </p>
+    </div>
+    <div class="afterEntry">
+        <span class="date"> {{ log.daynr.days }}. diena,</span>
+        <span class="date">{{ log.combo }}</span>
+        {% if log.number %}
+        <br />
+        <span class="desc">Citi saistītie mērķi:</span>
+        {% for s in log.number %}
+            <a class="goalLink" href="/s/{{ s }}">#{{ s }}</a>
+        {% endfor %}
+        {% endif %}
+    </div>
+{% endfor %}
+<div id="nav">
+    {% if newer %}
+            <a class="navbutton" href="{{ newer }}">Jaunāki pieraksti</a>
+    {% endif %}
+    {% if spacer %}
+        <span>|</span>
+    {% endif %}
+    
+    {% if older %}
+        <a class="navbutton" href="{{ older }}">Vecāki pieraksti</a>
+    {% endif %}
+</div>
+</div>
+{% endblock content %}

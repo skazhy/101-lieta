@@ -1,26 +1,36 @@
 {% extends "base-public.html" %}
-{% block saturs %}
-	{% for log in logs %}
-	<div class="aboutText">
-		<p class="logcontent"> {{ log.display }}</p>
-		{% ifequal log.number 0 %}
-			<span class="lightRed"><a href="/s/0">Vispārīgs ieraksts</a> | </span> 
-		{% endifequal %}
-		{% ifnotequal log.number 0 %}
-			 <span class="lightRed"><a href="/s/{{ log.number }}">Ieraksts par {{ log.number }}. mērķi</a> /</span> 
-		{% endifnotequal %}
-		 <span class="lightBlue"> {{log.daynr.days }}. diena {{ log.combo }}</span>
-	</div>
-	{% endfor %}
-	{% if older %}
-		<a id = "olderlogs" href="/logs/{{ older }}">vecāki ieraksti</a>
-	{% endif %}
-	{% if newer %}
-		{% ifequal newer 1 %}
-		<a id="newerlogs" href="/logs">jaunāki ieraksti</a>
-		{% endifequal %}
-		{% ifnotequal newer 1 %}
-		<a id="newerlogs" href="/logs/{{ newer }}">jaunāki ieraksti</a>
-		{% endifnotequal %}
-	{% endif %}
-{% endblock %}
+{% block content %}
+<div class="grid_7">
+{% for log in logs %}
+    <div class="log_entry">
+        <p class="entry_text">
+            {{ log.display }}
+        </p>
+    </div>
+    <div class="afterEntry">
+        <span class="date"> {{ log.daynr.days }}. diena,</span>
+        <span class="date">{{ log.combo }}.</span>
+        <span class="desc">Saistītie mērķi:</span>
+        {% for s in log.number %}
+            <a class="goalLink" href="/s/{{ s }}">#{{ s }}</a>
+        {% endfor %}
+    </div>
+{% endfor %}
+<div id="nav">
+    {% if newer %}
+        {% ifequal newer 0 %}
+            <a class="navbutton" href="/">Jaunāki pieraksti</a>
+        {% else %}
+            <a class="navbutton" href="/l/{{ newer }}">Jaunāki pieraksti</a>
+        {% endifequal %}
+    {% endif %}
+    {% if spacer %}
+        <span>|</span>
+    {% endif %}
+    
+    {% if older %}
+        <a class="navbutton" href="/l/{{ older }}">Vecāki pieraksti</a>
+    {% endif %}
+</div>
+</div>
+{% endblock content %} 

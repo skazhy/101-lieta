@@ -1,16 +1,22 @@
-import os, datetime, dbfunctions
+import os
 from datetime import timedelta
-from dbmodels import Stuff
+
 from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
+from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.api import memcache
-from settings import *
+
+from markdown import Markdown
+
+import dbfunctions
 
 class MainPage(webapp.RequestHandler):
-    def get(self):
-        main_page = memcache.get("main_page")
-        main_page = self.getMain()
+    def get(self, page=1):
+        if page == 1:
+            main_page = self.renderPage(1)
+            # main_page = self.getMain()
+        else:
+            main_page = self.renderPage(page)
         self.response.out.write(main_page)
 
     def getMain(self):
@@ -18,39 +24,23 @@ class MainPage(webapp.RequestHandler):
         if main_page is not None:
             return main_page
         else:
-            main_page = self.renderMain()
+            main_page = self.renderPage(1)
             memcache.add("main_page",main_page,600)
             return main_page
     
-    def renderMain(self):
-        start_date = datetime.datetime(S_YEAR, S_MONTH,S_DAY,0,0)
-        todays_date = datetime.datetime.now()+timedelta(hours=UTCDIFF)
-        done_days = todays_date - start_date
-        day_percent = int(done_days.days*100/1001)
-        current_day = done_days - timedelta(days=-1)
-        task_query = Stuff.all().filter('completed = ', True)
-        completed = task_query.fetch(limit=101)
-        comp_count = len(completed)
-        task_percent = int(comp_count*100/101)
-        task_query = Stuff.all().filter('progress > ', 0)
-        started = task_query.fetch(limit=101)
-        started_count = len(started)
-        task_percent = int(comp_count*100/101)
-        text = dbfunctions.get_tt('main')
+    def renderPage(self, page):
+        logs = dbfunctions.get_logs(int(page))
         template_values = {
-                'current_day':current_day.days,
-                'day_percent':day_percent,
-                'task_percent':task_percent,
-                'started':started_count,
-                'completed':comp_count,
-                'tt':text
+            'logs': logs[0],
+            'older': logs[1],
+            'newer': logs[2],
+            'spacer': logs[3],
         }
-        
-        path = os.path.join(os.path.dirname(__file__),'templates/base-public.html')
+        path = os.path.join(os.path.dirname(__file__),'templates/public-logs.html')
         main_page = template.render(path,template_values)
         return main_page
 
-application = webapp.WSGIApplication([('/', MainPage)],debug=False)
+application = webapp.WSGIApplication([('/', MainPage), ('/l/(.*)',MainPage)],debug=False)
 
 def main():
     run_wsgi_app(application)

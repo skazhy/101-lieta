@@ -1,20 +1,47 @@
 {% extends "base-public.html" %}
-{% block header %}
-<link rel="stylesheet" type="text/css" media="screen" href="css/stuff.css" />
-{% endblock %}
-{% block saturs %}
-	{{ tt }}
+{% block header_includes %}
+<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#display_all').css('display','none');
+    $('#display_c').click( function() { display(this,'c'); });
+    $('#display_s').click( function() { display(this,'s'); });
+    $('#display_ns').click( function() { display(this,'ns'); });
+    $('#display_all').click( function() { display_all(this); });
+});
+function display_all(button) {
+    $('.stuff_menu').css('display','block');
+    $(button).css('display','none');
+    $('.stuff_entry').css('display','block');
+}
+function display(button,mode) {
+    $('.stuff_menu').css('display','block');
+    $(button).css('display','none');
+    $('.stuff_entry').css('display','none');
+    $('.status_'+mode+'_div').css('display','block');
+}
+</script>
+{% endblock header_includes %}
+
+{% block sidebar_includes %}
+<ul id="menulist">
+   	<li class="stuff_menu" id="menu_header">Atlasīt:</li>
+    <li class="stuff_menu" id="display_ns">neiesāktos</li>
+    <li class="stuff_menu" id="display_s">iesāktos</li>
+    <li class="stuff_menu" id="display_c">pabeigtos</li>
+    <li class="stuff_menu" id="display_all">visus</li>
+</ul>
+{% endblock sidebar_includes %}
+
+{% block content %}
+<div class="grid_1"><p></p></div>
+<div class="grid_7">
     {% for stuff in stufflist %}
-	<div class="stuffentry">
-	{% if stuff.completed %}
-		<span class="comp">{{ stuff.number }}.</span>
-		<span class="comp lightRed"><a href="/s/{{ stuff.number }}"> {{ stuff.content }}</a></span>
-		<span class="comp">[ {{stuff.progress}} | {{stuff.total}} ]</span>
-	{% else %}
-		<span>{{ stuff.number }}.</span>
-		<span class="incomp"><a href="/s/{{ stuff.number }}">{{ stuff.content }}</a></span>
-		<span class="stuffprogress">[ {{stuff.progress}} | {{stuff.total}} ]</span>
-	{% endif %}
-	</div>
+        <div class="stuff_entry {{ stuff.status }}_div">
+            <span class="{{ stuff.status }} stuff_nr">{{ stuff.number }}.</span>
+            <a href="/s/{{ stuff.number }}" class="{{ stuff.status }} stuff_content">{{ stuff.content }}</a>
+		    <span class="{{ stuff.status }} stuff_progress">{ {{ stuff.progress }} / {{ stuff.total }} }</span>
+        </div>
 	{% endfor %}
-{% endblock %}
+</div>
+{% endblock content %}

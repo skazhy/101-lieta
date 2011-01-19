@@ -4,3 +4,6 @@
 *.swn
 # Ignore compiled Python files
 *.pyc
+
+# Ignore the settings.py file
+src/settings.py

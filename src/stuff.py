@@ -1,19 +1,17 @@
 import os, math, datetime, dbfunctions
-from markdown import *
-from datetime import timedelta
-from dbmodels import Stuff, Log
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
 from google.appengine.api import memcache
-from settings import *
 
 class StuffMain(webapp.RequestHandler):
     def get(self):
-        stuff_page = self.getStuff()
+        # stuff_page = self.getStuff()
+        stuff_page = self.renderStuff()
         self.response.out.write(stuff_page)
 
     def getStuff(self):
+        return self.renderStuff()
         stuff_page = memcache.get("stuff_page")
         if stuff_page is not None:
             return stuff_page
@@ -23,41 +21,33 @@ class StuffMain(webapp.RequestHandler):
             return stuff_page
     
     def renderStuff(self):
-        text = dbfunctions.get_tt('stuff')
-        stuff_query = Stuff.all().order('number')
-        stuff = stuff_query.fetch(limit=101)
-        template_values = { 'stufflist':stuff,
-                            'tt': text
-                          }
-        path = os.path.join(os.path.dirname(__file__), 'templates/public-stufflist.html')
+        # text = dbfunctions.get_tt('stuff')
+        t_path = 'templates/public-stufflist.html'
+        stuff = dbfunctions.get_all_stuff()
+        template_values = { 
+            'stufflist':stuff,
+        }
+        path = os.path.join(os.path.dirname(__file__), t_path)
         return template.render(path, template_values)
 
 class StuffEntry(webapp.RequestHandler):
-    def get(self, post):
-        post = int(post)
-        start_date = datetime.datetime(S_YEAR, S_MONTH, S_DAY, 0, 0) 
-        
-        stuff_query = Stuff.all().filter('number = ', post)
-        stuff = stuff_query.fetch(limit=1)
-        for aStuff in stuff:
-            aStuff.percent = round((aStuff.progress*100.0 / aStuff.total),2)
-            round(aStuff.percent)
-        log_query = Log.all().filter('number = ',post).order('-date')
-        logs = log_query.fetch(limit=30)
-        md = Markdown()    
-        for log in logs:
-            log.display = md.convert(log.content)
-            log.daynr = diffCurrent = log.date - start_date - timedelta(days=-1)
-            log.combo = log.date.strftime(LOG_DATE)    
-        
+    def get(self, post, page=1):
+        t_path = 'templates/public-stuffentry.html'
+        stuff = dbfunctions.get_stuff(int(post))
+        logs = dbfunctions.get_logs(int(page),int(post))
         template_values = {
             'stuff':stuff,
-            'logs':logs
+            'logs': logs[0],
+            'older': logs[1],
+            'newer': logs[2],
+            'spacer': logs[3],
         }
-        path = os.path.join(os.path.dirname(__file__), 'templates/public-stuffentry.html')
+        path = os.path.join(os.path.dirname(__file__), t_path)
         self.response.out.write(template.render(path, template_values))
 
-application = webapp.WSGIApplication([('/s/(.*)', StuffEntry),('/stuff', StuffMain)],
+application = webapp.WSGIApplication([('/s/(\d+)/(\d+)', StuffEntry),
+                                      ('/stuff', StuffMain),
+                                      ('/s/(.*)', StuffEntry)],
                                      debug=False)
 
 def main():
