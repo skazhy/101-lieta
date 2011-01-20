@@ -13,8 +13,8 @@ import dbfunctions
 class MainPage(webapp.RequestHandler):
     def get(self, page=1):
         if page == 1:
-            main_page = self.renderPage(1)
-            # main_page = self.getMain()
+            # main_page = self.renderPage(1)
+            main_page = self.getMain()
         else:
             main_page = self.renderPage(page)
         self.response.out.write(main_page)
@@ -29,7 +29,7 @@ class MainPage(webapp.RequestHandler):
             return main_page
     
     def renderPage(self, page):
-        logs = dbfunctions.get_logs(int(page))
+        logs = dbfunctions.get_logs('short', int(page))
         template_values = {
             'logs': logs[0],
             'older': logs[1],

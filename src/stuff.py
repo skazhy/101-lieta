@@ -6,8 +6,8 @@ from google.appengine.api import memcache
 
 class StuffMain(webapp.RequestHandler):
     def get(self):
-        # stuff_page = self.getStuff()
-        stuff_page = self.renderStuff()
+        stuff_page = self.getStuff()
+        # stuff_page = self.renderStuff()
         self.response.out.write(stuff_page)
 
     def getStuff(self):
@@ -34,7 +34,7 @@ class StuffEntry(webapp.RequestHandler):
     def get(self, post, page=1):
         t_path = 'templates/public-stuffentry.html'
         stuff = dbfunctions.get_stuff(int(post))
-        logs = dbfunctions.get_logs(int(page),int(post))
+        logs = dbfunctions.get_logs('full',int(page),int(post))
         template_values = {
             'stuff':stuff,
             'logs': logs[0],

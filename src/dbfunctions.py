@@ -8,7 +8,7 @@ def get_tt(key):
     txt = TemplateText.all().filter('name_short = ', key)
     return md.convert(txt[0].content)
 
-def get_logs(page=1,stuff=-1):
+def get_logs(display_date,page=1,stuff=-1):
         older = False
         newer = False
         spacer = False
@@ -28,7 +28,7 @@ def get_logs(page=1,stuff=-1):
             logs.pop()
         if offset > 0:
             p_new = str(page - 1)
-            newer = '/' + p_new
+            newer = '/l/' + p_new
             if stuff != -1 and page == 2:
                 newer = '/s/' + str(stuff)
             if stuff != -1 and page != 2:
@@ -44,10 +44,11 @@ def get_logs(page=1,stuff=-1):
         for log in logs:
             log.display = md.convert(log.content)
             log.daynr = log.date - START_DT - timedelta(days=-1)
-            if stuff == -1:
-                log.combo = log.date.strftime(LOG_DATE_SHORT)
-            else:
+            if stuff != -1: 
                 log.numbers.remove(stuff)
+            if display_date == 'short':
+                log.combo = log.date.strftime(LOG_DATE_SHORT)
+            if display_date == 'full':
                 log.combo = log.date.strftime(LOG_DATE)
         return [logs,older,newer,spacer]
         
@@ -93,7 +94,7 @@ def save_stuff(req, mode='edit'):
     stuff.progress = int(req.get('progress'))
     stuff.total = int(req.get('total'))
     if stuff.progress >= stuff.total:
-        stuff.completed = False
+        stuff.completed = True
     else:
         stuff.completed = False
     db.put(stuff)

@@ -1,31 +1,12 @@
 {% extends "base-admin.html" %}
-{% block saturs %}
+{% block content %}
 	{% for t in tt %}
-		<form class="editt" action="/admin/writet" method="post">
+        <form class="editt" action="/admin/writet" method="post">
 			<p>{{ t.name_short }}</p>
 			<textarea name="content" rows="2" cols="100">{{ t.content }}</textarea>
 			<input type="hidden" name="name_short" value="{{ t.key }}" />
 			<input type="submit" value="Edit text"/>
 		</form>
 	{% endfor %}
-	{% for log in logs %}
-		<form class="editl" action="/admin/writel" method="post">
-			<input type="text" name="number" value="{{ log.numbers }}" /><br />
-			<textarea name="content" rows="2" cols="100">{{ log.content}}</textarea>
-			<input type="hidden" name="id" value="{{ log.key }}" />
-			<input type="submit" value="Edit log"/>
-		</form>
-	{% endfor%}
-	{% for stuff in stufflist %}
-		<form class="edits" action="/admin/writes" method="post">
-			<span class="stuffnumber">{{ stuff.number }}.</span>
-			<input type="hidden" name="id" value="{{ stuff.key }}" />
-			<input type="text" name="stuffcontent" value="{{ stuff.content }}" />
-			<input type="text" name="stuffprogress" value="{{ stuff.progress }}" />
-			<input type="text" name="stufftotal" value="{{ stuff.total }}" />
-			<span class="stuffcomplete">{{ stuff.completed }}</span>
-			<br /><input type="submit" value="Labot" />	
-		</form>
-	{% endfor %}
-{% endblock %}
+{% endblock content %}
 

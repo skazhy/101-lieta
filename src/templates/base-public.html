@@ -1,47 +1,40 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"0>
-    <title>101 lieta 1001 dienā</title>
-    <link rel="stylesheet" href="/css/960.css" type="text/css" media="screen" />
+{% extends "base.html" %}
+{% block baseheader_includes %}
     <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" />
     {% block header_includes %}{% endblock %}
-</head>
-<body>
-    <div class="container_12">
-    	<div class="grid_3" id="sidebar">
-            <img src="/img/logo.png" alt="101 lieta 1001 dienā" />
-            <ul id="menulist">
-            	<li class="menu">
-            		<a href="/">pieraksti</a>
-            	</li>
-            	<li class="menu">
-            		<a href="/stuff">101 lieta</a>
-            	</li>
-            	<!-- 
-                <li class="menu">
-            		<a href="">statistika</a>
-            	</li>
-                -->
-            	<li class="menu">
-            		<a href="/info">par projektu</a>
-            	</li>
-            </ul>
-            {% block sidebar_includes %}{% endblock %}
+{% endblock baseheader_includes %}
+
+{% block grid_includes %}
+  	<div class="grid_3" id="sidebar">
+        <img src="/img/logo.png" alt="101 lieta 1001 dienā" />
+        <ul id="menulist">
+      	    <li class="menu">
+                <a href="/">pieraksti</a>
+            </li>
+            <li class="menu">
+            	<a href="/stuff">101 lieta</a>
+            </li>
+            <!-- 
+            <li class="menu">
+                <a href="">statistika</a>
+            </li>
+            -->
+            <li class="menu">
+                <a href="/info">par projektu</a>
+            </li>
+        </ul>
+        {% block sidebar_includes %}{% endblock %}
         
-        </div>
-        {% block content %}{% endblock %}
-        <div class="clear"></div>
-        <div class="grid_12" id="footer">
-            <span class="desc">Lapas kods iekš </span><a class="footLink" href="https://github.com/skazhy/101-lieta">GitHub</a>
-            <span class="desc">|</span>
-            <span class="desc">Darbojās uz </span><a class="footLink" href="http://code.google.com/appengine">App Engine</a>
-            <br />
-            <span class="desc">MMX-MMXI</span>
-            <br />
-            <a class="footLink" href="http://facebook.com/skazhy">Kārlis L.</a>
-        </div>
     </div>
-</body>
-</html>
+    {% block content %}{% endblock %}
+    <div class="clear"></div>
+    <div class="grid_12" id="footer">
+        <span class="desc">Lapas kods iekš </span><a class="footLink" href="https://github.com/skazhy/101-lieta">GitHub</a>
+        <span class="desc">|</span>
+        <span class="desc">Darbojas uz </span><a class="footLink" href="http://code.google.com/appengine">App Engine</a>
+        <br />
+        <span class="desc">MMX-MMXI</span>
+        <br />
+        <a class="footLink" href="http://facebook.com/skazhy">Kārlis L.</a>
+    </div>
+{% endblock grid_includes %}

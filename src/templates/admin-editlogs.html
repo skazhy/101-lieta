@@ -1,0 +1,31 @@
+{% extends "base-admin.html" %}
+{% block header_includes %}
+<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var forms = document.getElementsByClassName('numbers');
+    for (var i=0; i<forms.length;i++) {
+        var e = forms[i].value;
+        var e = e.replace(/[L,\[\]]/g,"");
+        forms[i].value = e;
+    }
+});
+</script>
+{% endblock header_includes %}
+{% block content %}
+    {% for log in logs %}
+		<form class="editl" action="/admin/writel" method="post">
+            <div class="grid_6 entry">
+                <textarea name="content" rows="5" cols="50">{{ log.content}}</textarea>
+			</div>
+		    <div class="grid_3">
+			    <p>{{ log.combo }}</p>
+                <input type="text" class="numbers" name="number" value="{{ log.numbers }}" /><br />
+			    <input type="submit" value="Labot"/>
+			</div>
+            <input type="hidden" name="id" value="{{ log.key }}" />
+		</form>
+	    <div class="clear"></div>
+    {% endfor%}
+{% endblock content %}
+

@@ -1,0 +1,27 @@
+body {
+    margin-top:20px;
+    background-color: #E8EBEF;
+}
+li { display: inline; }
+
+a, li.stuff_menu, #menu_header { 
+    text-decoration:none;
+    margin:10px;
+    font-family:serif;
+    color:#51233d;
+}
+
+#header {
+    text-align:center;
+    margin-bottom:20px;
+}
+
+li:hover { background-color:#b3d9e2; }
+li#menu_header:hover { background-color:#E8EBEF; }
+
+.entry { margin-bottom: 20px; }
+p { 
+    color: #69434e;
+    margin:0; 
+    font-size:12px;
+}

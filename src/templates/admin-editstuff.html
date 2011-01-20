@@ -1,0 +1,83 @@
+{% extends "base-admin.html" %}
+{% block header_includes %}
+<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#display_all').css('display','none');
+    $('#display_c').click( function() { display(this,'c'); });
+    $('#display_s').click( function() { display(this,'s'); });
+    $('#display_ns').click( function() { display(this,'ns'); });
+    $('#display_all').click( function() { display_all(this); });
+});
+function display_all(button) {
+    $('.stuff_menu').css('display','inline');
+    $(button).css('display','none');
+    $('.edits').css('display','block');
+}
+function display(button,mode) {
+    $('.stuff_menu').css('display','inline');
+    $(button).css('display','none');
+    $('.edits').css('display','none');
+    $('.status_'+mode+'_div').css('display','block');
+}
+</script>
+{% endblock header_includes %}
+{% block menu_includes %}
+<ul>
+   	<li id="menu_header">Atlasīt:</li>
+    <li class="stuff_menu" id="display_ns">neiesāktos</li>
+    <li class="stuff_menu" id="display_s">iesāktos</li>
+    <li class="stuff_menu" id="display_c">pabeigtos</li>
+    <li class="stuff_menu" id="display_all">visus</li>
+</ul>
+
+{%endblock menu_includes %}
+
+
+{% block content %}
+	{% for t in tt %}
+        <form class="editt" action="/admin/writet" method="post">
+			<p>{{ t.name_short }}</p>
+			<textarea name="content" rows="2" cols="100">{{ t.content }}</textarea>
+			<input type="hidden" name="name_short" value="{{ t.key }}" />
+			<input type="submit" value="Edit text"/>
+		</form>
+	{% endfor %}
+	
+    {% for log in logs %}
+		<form class="editl" action="/admin/writel" method="post">
+            <div class="grid_6 entry">
+                <textarea name="content" rows="5" cols="50">{{ log.content}}</textarea>
+			</div>
+		    <div class="grid_3">
+			    <p>{{ log.combo }}</p>
+                <input type="text" name="number" value="{{ log.numbers }}" /><br />
+			    <input type="submit" value="Labot"/>
+			</div>
+            <input type="hidden" name="id" value="{{ log.key }}" />
+		</form>
+	    <div class="clear"></div>
+    {% endfor%}
+	
+    {% for stuff in stufflist %}
+        <form class="edits {{ stuff.status }}_div" action="/admin/writes" method="post">
+		<div class="grid_1">
+			<span class="stuffnumber">{{ stuff.number }}.</span>
+	    </div>
+        <div class="grid_8 entry">
+            <input type="hidden" name="id" value="{{ stuff.key }}" />
+			<input type="text" size="95" name="content" value="{{ stuff.content }}" /><br />
+			<input type="text" size="4" name="progress" value="{{ stuff.progress }}" />
+			<input type="text" size="4" name="total" value="{{ stuff.total }}" />
+            <input type="submit" value="Labot" />	
+		</div>
+        <div class="2">	
+            {% if stuff.completed %}
+                <span>Izpildīts</span>
+		    {% endif %}
+        </div>	
+		</form>
+	    <div class="clear"></div>
+	{% endfor %}
+{% endblock content %}
+
