@@ -98,3 +98,15 @@ def save_stuff(req, mode='edit'):
     else:
         stuff.completed = False
     db.put(stuff)
+
+def save_increment(req):
+    stuff = []
+    for r in req.arguments():
+        if r[:4] == 'inc_':
+            stuff.append(int(r[4:]))
+    for s in stuff:
+        stuff = get_stuff(s)
+        key = 'inc_'+str(s)
+        inc = req.get(key)
+        stuff.progress += int(inc)
+        stuff.save()

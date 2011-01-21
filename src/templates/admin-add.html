@@ -1,0 +1,48 @@
+{% extends "base-admin.html" %}
+{% block header_includes %}
+<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="/js/adminutils.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#logadd').blur( function() { add_incrfields(); });
+});
+
+function add_incrfields() {
+    $('.logincr').remove();
+    var value = $('#logadd').val();
+    var fields = value.split(' ');
+    var uniqueFields = fields.unique();
+    for(var i=0; i<uniqueFields.length; i++) {
+        $('#logcontent').after('<br /><span class="logincr">'+uniqueFields[i]+
+                               '</span><input class="logincr" type="text" name="inc_'+
+                               uniqueFields[i]+'" />');
+    }
+    var toDelete = a.diff(uniqueFields);
+}
+</script>
+{% endblock header_includes %}
+
+{% block content %}
+<div class="grid_12">
+    <h2>Pievienot pierakstu</h2>
+	<form id="logform" action="/admin/post_log" method="post">
+	    <div><input id="logadd" type="text" name="number" value="" /><div />
+		<textarea id="logcontent" name="content" rows="3" cols="60"></textarea>
+        <div><input id="logadd" type="submit" value="Add log"></div>
+	</form>
+	<h2>Add stuff</h2>
+	<form action="/admin/post_stuff" method="post">
+		<div><input type="text" name="number" value="" /><div />
+		<textarea name="content" rows="3" cols="60"></textarea>
+		<div><span>Progress:</span><input type="text" name="progress" value="0" /><div />
+		<div><span>Kopējais:</span><input type="text" name="total" value="" /><div />
+        <div><input type="submit" value="Add stuff"></div>
+	</form>
+	<h2>Add template text</h2>
+	<form action="/admin/post_ttext" method="post">
+	<div><input type="text" name="name_short" value="" /><div />
+	<textarea name="content" rows="3" cols="60"></textarea>
+    <div><input type="submit" value="Add txt"></div>
+	</form>
+</div>
+{% endblock content %}

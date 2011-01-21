@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block baseheader_includes %}
 	<link rel="stylesheet" href="/css/admin.css" type="text/css" media="screen" charset="utf-8" />
-    {% block header_includes %}{% endblock %}
+{% block header_includes %}{% endblock %}
 {% endblock baseheader_includes %}
 
 {% block grid_includes %}
@@ -16,28 +16,5 @@
         {% block menu_includes %}{% endblock %}
     </div>
     <div class="clear"></div>
-    {% block content %}
-    <div class="grid_12">
-	    <h2>Add log</h2>
-	    <form action="/admin/post_log" method="post">
-		    <div><input type="text" name="number" value="" /><div />
-			<textarea name="content" rows="3" cols="60"></textarea>
-            <div><input type="submit" value="Add log"></div>
-	    </form>
-	    <h2>Add stuff</h2>
-	    <form action="/admin/post_stuff" method="post">
-			<div><input type="text" name="number" value="" /><div />
-			<textarea name="content" rows="3" cols="60"></textarea>
-			<div><span>Progress:</span><input type="text" name="progress" value="0" /><div />
-			<div><span>Kopējais:</span><input type="text" name="total" value="" /><div />
-            <div><input type="submit" value="Add stuff"></div>
-	    </form>
-	    <h2>Add template text</h2>
-	    <form action="/admin/post_ttext" method="post">
-		    <div><input type="text" name="name_short" value="" /><div />
-			<textarea name="content" rows="3" cols="60"></textarea>
-            <div><input type="submit" value="Add txt"></div>
-	    </form>
-    </div>
-    {% endblock content %}
+    {% block content %}{% endblock content %}
 {% endblock grid_includes %}

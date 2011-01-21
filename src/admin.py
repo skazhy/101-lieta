@@ -10,7 +10,7 @@ from dbmodels import *
 class AdminMain(webapp.RequestHandler):
     def get(self):
         if users.is_current_user_admin():
-            path = os.path.join(os.path.dirname(__file__), 'templates/base-admin.html')
+            path = os.path.join(os.path.dirname(__file__), 'templates/admin-add.html')
             self.response.out.write(template.render(path, {}))
         else:
             self.redirect('/')
@@ -76,6 +76,7 @@ class PostEntry(webapp.RequestHandler):
         if users.is_current_user_admin():
             if mode == "log":
                 dbfunctions.save_log(self.request,'new')
+                dbfunctions.save_increment(self.request)
                 memcache.delete('main_page')
             if mode == "stuff":
                 dbfunctions.save_stuff(self.request,'new')
