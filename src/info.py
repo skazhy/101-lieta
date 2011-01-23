@@ -1,19 +1,15 @@
-import os
-import dbfunctions
+import models, views
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
-from google.appengine.ext.webapp import template
 
 class Info(webapp.RequestHandler):
     def get(self):
-        text = dbfunctions.get_tt('info')
-        path = os.path.join(os.path.dirname(__file__), 'templates/public-info.html')
-        template_values = {'tt': text }
-        self.response.out.write(template.render(path, template_values))
+        text = models.get_tt('info')
+        t_path = 'templates/public-info.html'
+        info_page = views.render_view(t_path, 'info', text)
+        self.response.out.write(info_page)
 
-application = webapp.WSGIApplication(
-                                     [('/info',Info)],
-                                     debug=True)
+application = webapp.WSGIApplication([('/info',Info)], debug=True)
 
 def main():
     run_wsgi_app(application)

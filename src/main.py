@@ -1,14 +1,9 @@
-import os
-from datetime import timedelta
-
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import template
+from google.appengine.ext             import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
-from google.appengine.api import memcache
+from google.appengine.api             import memcache
 
-from markdown import Markdown
-
-import dbfunctions
+import models
+import views
 
 class MainPage(webapp.RequestHandler):
     def get(self, page=1):
@@ -29,16 +24,9 @@ class MainPage(webapp.RequestHandler):
             return main_page
     
     def renderPage(self, page):
-        logs = dbfunctions.get_logs('short', int(page))
-        template_values = {
-            'logs': logs[0],
-            'older': logs[1],
-            'newer': logs[2],
-            'spacer': logs[3],
-        }
-        path = os.path.join(os.path.dirname(__file__),'templates/public-logs.html')
-        main_page = template.render(path,template_values)
-        return main_page
+        logs = models.get_logs('short', int(page))
+        t_path = 'templates/public-logs.html'
+        return views.render_view(t_path, 'logs',logs)
 
 application = webapp.WSGIApplication([('/', MainPage), ('/l/(.*)',MainPage)],debug=False)
 

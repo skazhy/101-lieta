@@ -1,12 +1,32 @@
-from dbmodels import *
-from markdown import *
+from google.appengine.ext import db
 from settings import *
 from datetime import timedelta
 
+class Stuff(db.Model):
+	number = db.IntegerProperty()
+	content = db.StringProperty()
+	completed = db.BooleanProperty()
+	progress = db.IntegerProperty()
+	total = db.IntegerProperty()
+
+class Log(db.Model):
+	number = db.IntegerProperty()
+	numbers = db.ListProperty(int)
+	content = db.TextProperty()
+	date = db.DateTimeProperty()
+
+class TemplateText(db.Model):
+    name_short = db.StringProperty()
+    content = db.TextProperty()
+
 def get_tt(key):
-    md = Markdown()
     txt = TemplateText.all().filter('name_short = ', key)
-    return md.convert(txt[0].content)
+    return txt[0].content
+
+def get_all_tt():
+    tt = TemplateText.all()
+    return tt
+
 
 def get_logs(display_date,page=1,stuff=-1):
         older = False
@@ -40,9 +60,7 @@ def get_logs(display_date,page=1,stuff=-1):
         if newer and older:
             spacer = True
         
-        md = Markdown()
         for log in logs:
-            log.display = md.convert(log.content)
             log.daynr = log.date - START_DT - timedelta(days=-1)
             if stuff != -1: 
                 log.numbers.remove(stuff)
@@ -110,3 +128,12 @@ def save_increment(req):
         inc = req.get(key)
         stuff.progress += int(inc)
         stuff.save()
+
+def save_tt(req,mode):
+    if mode == 'edit':
+        tt = db.get(req.get('name_short'))
+    if mode == 'new':
+        tt = TemplateText()
+        tt.name_short = req.get('name_short')
+    tt.content = req.get('content')
+    db.put(tt)
