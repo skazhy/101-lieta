@@ -31,10 +31,10 @@ handlers:
 
 # Static directories
 - url: /css
-  static_dir: css
+  static_dir: static/css
 
 - url: /js
-  static_dir: js
+  static_dir: static/js
 
 - url: /img
-  static_dir: img
+  static_dir: static/img

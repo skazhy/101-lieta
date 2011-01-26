@@ -25,3 +25,10 @@ p {
     margin:0; 
     font-size:12px;
 }
+
+.goalLink {
+    padding:2px;
+    background-color:#69434e;
+    color:#e8ebef;
+    font-size:12px;
+}

@@ -11,24 +11,28 @@ function add_incrfields() {
     $('.logincr').remove();
     var value = $('#logadd').val();
     var fields = value.split(' ');
-    var uniqueFields = fields.unique();
-    for(var i=0; i<uniqueFields.length; i++) {
-        $('#logcontent').after('<br /><span class="logincr">'+uniqueFields[i]+
-                               '</span><input class="logincr" type="text" name="inc_'+
-                               uniqueFields[i]+'" />');
-    }
-    var toDelete = a.diff(uniqueFields);
-}
+    var uf = fields.unique();
+    if (uf.length) {
+    for(var i=0; i<uf.length; i++) {
+        
+        $('#contentend').after('<div class="grid_1 logincr">'+
+                                '<a class="goalLink" href="/s/'+uf[i]+'">#'+uf[i]+'</a></div>'+
+                                '<div class="grid_4 logincr">'+
+                                '<input type="text" class="logincr" name="inc_'+uf[i]+'" value="0"/>'+
+                                '</div><div class="clear logincr"></div>');
+    }}
+};
 </script>
 {% endblock header_includes %}
 
 {% block content %}
 <div class="grid_12">
     <h2>Pievienot pierakstu</h2>
-	<form id="logform" action="/admin/post_log" method="post">
-	    <div><input id="logadd" type="text" name="number" value="" /><div />
+	<form id="logform" action="/admin/post_log" method="post" >
+	    <div><input id="logadd" type="text" name="number" value="" />
+        <input id="logadd" type="submit" value="Add log"></div>
 		<textarea id="logcontent" name="content" rows="3" cols="60"></textarea>
-        <div><input id="logadd" type="submit" value="Add log"></div>
+        <div class="clear" id="contentend"></div>
 	</form>
 	<h2>Add stuff</h2>
 	<form action="/admin/post_stuff" method="post">

@@ -16,7 +16,6 @@ class AdminMain(webapp.RequestHandler):
 class EditEntry(webapp.RequestHandler):
     def get(self,mode):
         if users.is_current_user_admin():
-            t_path = 'templates/admin-edit.html'
             if mode == "log":
                 t_path = 'templates/admin-editlogs.html'
                 logs = models.get_logs('full')
@@ -26,6 +25,7 @@ class EditEntry(webapp.RequestHandler):
                 stuff = models.get_all_stuff()
                 page = views.render_view(t_path, 'editstuff', stuff)
             if mode == "ttext":
+                t_path = 'templates/admin-edittt.html'
                 tt = models.get_all_tt()
                 page = views.render_view(t_path, 'edittt', tt)
             self.response.out.write(page)

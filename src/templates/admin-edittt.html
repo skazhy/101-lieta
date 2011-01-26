@@ -1,0 +1,11 @@
+{% extends "base-admin.html" %}
+{% block content %}
+	{% for t in tt %}
+        <form class="editt" action="/admin/writet" method="post">
+			<p>{{ t.name_short }}</p>
+			<textarea name="content" rows="2" cols="100">{{ t.content }}</textarea>
+			<input type="hidden" name="name_short" value="{{ t.key }}" />
+			<input type="submit" value="Edit text"/>
+		</form>
+	{% endfor %}
+{% endblock content %}

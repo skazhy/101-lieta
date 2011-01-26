@@ -1,6 +1,8 @@
 from google.appengine.ext import db
-from settings import *
+
 from datetime import timedelta
+
+from settings import *
 
 class Stuff(db.Model):
 	number = db.IntegerProperty()
