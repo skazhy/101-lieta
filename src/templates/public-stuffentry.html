@@ -24,11 +24,12 @@ $(document).ready(function() {
 
 {% block content %}
 <div class="grid_8">	
-    <h1>#{{ stuff.number }} - {{ stuff.content }}</h1>
+{% if stuff %}
+<h1>#{{ stuff.number }} - {{ stuff.content }}</h1>
     <div id="stuff_progress"></div>
     <p id="progress">Šībrīža progress:
     {{ stuff.percent }}% ({{ stuff.progress }} / {{ stuff.total }})</p>
-	
+{% endif %}
 {% for log in logs %}
     <div class="log_entry">
         <p class="entry_text">

@@ -73,10 +73,13 @@ def get_logs(display_date,page=1,stuff=-1):
         return [logs,older,newer,spacer]
         
 def get_stuff(post):
-    stuff = Stuff.all().filter('number = ',post).fetch(limit=1)
-    stuff[0].percent = round((stuff[0].progress*100.0 / stuff[0].total),2)
-    round(stuff[0].percent)
-    return stuff[0]
+    if post != 0:
+        stuff = Stuff.all().filter('number = ',post).fetch(limit=1)
+        stuff[0].percent = round((stuff[0].progress*100.0 / stuff[0].total),2)
+        round(stuff[0].percent)
+        return stuff[0]
+    else:
+        return False
         
 def get_all_stuff():        
     stuff_query = Stuff.all().order('number')
@@ -124,6 +127,7 @@ def save_increment(req):
     for r in req.arguments():
         if r[:4] == 'inc_':
             stuff.append(int(r[4:]))
+    stuff.remove(0)
     for s in stuff:
         stuff = get_stuff(s)
         key = 'inc_'+str(s)
