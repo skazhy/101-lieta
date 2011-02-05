@@ -127,7 +127,8 @@ def save_increment(req):
     for r in req.arguments():
         if r[:4] == 'inc_':
             stuff.append(int(r[4:]))
-    stuff.remove(0)
+    if 0 in stuff:
+        stuff.remove(0)
     for s in stuff:
         stuff = get_stuff(s)
         key = 'inc_'+str(s)
