@@ -32,9 +32,7 @@ $(document).ready(function() {
 {% endif %}
 {% for log in logs %}
     <div class="log_entry">
-        <p class="entry_text">
             {{ log.display }}
-        </p>
     </div>
     <div class="afterEntry">
         <span class="date"> {{ log.daynr.days }}. diena,</span>

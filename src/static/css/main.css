@@ -5,13 +5,18 @@ body {
 
 a { text-decoration:none; }
 
-.entry_text, #info p {
+.log_entry p, #info p {
     color: #19283b;
     line-height:1.5em;
     font-size:16px;
     font-family:serif;
     margin-bottom:0;
 }
+
+.log_entry {
+    margin-bottom:5px;
+}
+
 
 #sidebar { padding-top:20px; }
 
@@ -62,7 +67,7 @@ a { text-decoration:none; }
     text-align:right;
 }
 
-ul#menulist {
+ul.menulist {
     list-style:none;
     margin-top:30px;
     width:60%;
