@@ -85,11 +85,11 @@ def get_all_stuff():
     stuff_query = Stuff.all().order('number')
     stuff = stuff_query.fetch(limit=101)
     for s in stuff:
-        s.status = 'status_ns'
+        s.status = 'ns'
         if s.progress > 0:
-            s.status = 'status_s' 
+            s.status = 's' 
         if s.completed:
-            s.status = 'status_c'
+            s.status = 'c'
     return stuff
 
 def save_log(req, mode='edit'):

@@ -3,22 +3,19 @@
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#display_all').css('display','none');
+    $('#display_all').hide();
     $('#display_c').click( function() { display(this,'c'); });
     $('#display_s').click( function() { display(this,'s'); });
     $('#display_ns').click( function() { display(this,'ns'); });
     $('#display_all').click( function() { display_all(this); });
 });
 function display_all(button) {
-    $('.stuff_menu').css('display','block');
-    $(button).css('display','none');
-    $('.stuff_entry').css('display','block');
+    $('.stuff_menu').add('.stuff_entry').show();
+    $(button).hide();
 }
 function display(button,mode) {
-    $('.stuff_menu').css('display','block');
-    $(button).css('display','none');
-    $('.stuff_entry').css('display','none');
-    $('.status_'+mode+'_div').css('display','block');
+    $('.stuff_menu').add('.div_'+mode).show();
+    $('.stuff_entry').not('.div_'+mode).add(button).hide();
 }
 </script>
 {% endblock header_includes %}
@@ -36,7 +33,7 @@ function display(button,mode) {
 {% block content %}
 <div class="grid_9">
     {% for stuff in stufflist %}
-        <div class="stuff_entry {{ stuff.status }}_div">
+        <div class="stuff_entry div_{{ stuff.status }}">
             <span class="{{ stuff.status }} stuff_nr">{{ stuff.number }}.</span>
             <a href="/s/{{ stuff.number }}" class="{{ stuff.status }} stuff_content">{{ stuff.content }}</a>
 		    <span class="{{ stuff.status }} stuff_progress">{ {{ stuff.progress }} / {{ stuff.total }} }</span>
