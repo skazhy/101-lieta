@@ -1,4 +1,12 @@
 {% extends "base-public.html" %}
+{% block header_includes %}
+<script type="text/javascript">
+$(document).ready(function() {
+    $('a[href^="http://"]').addClass('extLink');
+    $('a[href^="/s/"]').addClass('goalLink');
+});
+</script>
+{% endblock header_includes %}
 {% block content %}
 <div class="grid_7">
 {% for log in logs %}

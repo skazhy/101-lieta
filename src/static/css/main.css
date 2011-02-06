@@ -5,7 +5,7 @@ body {
 
 a { text-decoration:none; }
 
-.log_entry p, #info p {
+.log_entry p, .log_entry ul, #info p {
     color: #19283b;
     line-height:1.5em;
     font-size:16px;

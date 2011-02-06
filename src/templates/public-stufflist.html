@@ -1,13 +1,9 @@
 {% extends "base-public.html" %}
 {% block header_includes %}
-<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#display_all').hide();
-    $('#display_c').click( function() { display(this,'c'); });
-    $('#display_s').click( function() { display(this,'s'); });
-    $('#display_ns').click( function() { display(this,'ns'); });
-    $('#display_all').click( function() { display_all(this); });
+    $('.stuff_select').each( function() { this.onclick = function() { display(this, this.id) }});
+    $('#display_all').hide().click( function() { display_all(this); });
 });
 function display_all(button) {
     $('.stuff_menu').add('.stuff_entry').show();
@@ -23,9 +19,9 @@ function display(button,mode) {
 {% block sidebar_includes %}
 <ul class="menulist">
    	<li class="stuff_menu" id="menu_header">Atlasīt:</li>
-    <li class="stuff_menu" id="display_ns">neiesāktos</li>
-    <li class="stuff_menu" id="display_s">iesāktos</li>
-    <li class="stuff_menu" id="display_c">pabeigtos</li>
+    <li class="stuff_menu stuff_select" id="ns">neiesāktos</li>
+    <li class="stuff_menu stuff_select" id="s">iesāktos</li>
+    <li class="stuff_menu stuff_select" id="c">pabeigtos</li>
     <li class="stuff_menu" id="display_all">visus</li>
 </ul>
 {% endblock sidebar_includes %}
