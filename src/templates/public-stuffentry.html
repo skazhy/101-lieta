@@ -5,7 +5,7 @@
 <script type="text/javascript" src="/js/jquery-ui-1.8.8.custom.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    $('a[href^="http://"]').addClass('extLink');
+    $('a[href^="http"]').addClass('extLink');
     $('a[href^="/s/"]').addClass('goalLink');
     $('#stuff_progress').progressbar({
         value: {{ stuff.percent|default:0 }}
