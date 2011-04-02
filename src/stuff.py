@@ -18,7 +18,7 @@ class StuffMain(webapp.RequestHandler):
             stuff_page = self.renderStuff()
             memcache.add("stuff_page", stuff_page, 600)
             return stuff_page
-    
+
     def renderStuff(self):
         # text = models.get_tt('stuff')
         t_path = 'templates/public-stufflist.html'
@@ -29,10 +29,10 @@ class StuffEntry(webapp.RequestHandler):
     def get(self, post, page=1):
         t_path = 'templates/public-stuffentry.html'
         stuff = models.get_stuff(int(post))
-        logs = models.get_logs('full', int(page), int(post))
+        logs = models.get_logs(int(page), int(post))
         stuff_entry = views.render_view(t_path, 'stuffentry', [stuff, logs])
         self.response.out.write(stuff_entry)
-        
+
 application = webapp.WSGIApplication([('/s/(\d+)/(\d+)', StuffEntry),
                                       ('/stuff', StuffMain),
                                       ('/s/(.*)', StuffEntry)],

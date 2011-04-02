@@ -11,14 +11,14 @@ $(document).ready(function() {
 <div class="grid_7">
 {% for log in logs %}
     <div class="log_entry">
+    <a href="/log/{{ log.key.id }}">115</a>
     {{ log.display }}
     </div>
     <div class="afterEntry">
-        <span class="date"> {{ log.daynr.days }}. diena,</span>
-        <span class="date">{{ log.combo }}.</span>
+        <abbr class="desc" title="{{ log.date|date:"Y.m.d. H:i" }}">{{ log.daynr.days }}. diena.</abbr>
         <span class="desc">Saistītie mērķi:</span>
         {% for s in log.numbers %}
-            <a class="goalLink" href="/s/{{ s }}">#{{ s }}</a>
+            <a title="{{ s.title }}" class="goalLink" href="/s/{{ s }}">#{{ s }}</a>
         {% endfor %}
     </div>
 {% endfor %}
@@ -33,10 +33,10 @@ $(document).ready(function() {
     {% if spacer %}
         <span class="desc">|</span>
     {% endif %}
-    
+
     {% if older %}
         <a class="navbutton" href="{{ older }}">Vecāki pieraksti</a>
     {% endif %}
 </div>
 </div>
-{% endblock content %} 
+{% endblock content %}

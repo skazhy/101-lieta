@@ -30,12 +30,12 @@ def get_all_tt():
     return tt
 
 
-def get_logs(display_date,page=1,stuff=-1):
+def get_logs(page=1,stuff=-1):
         older = False
         newer = False
         spacer = False
         offset = page*EPP-EPP
-         
+
         log_query = Log.all()
         if stuff == -1:
             log_query.order('-date')
@@ -46,7 +46,7 @@ def get_logs(display_date,page=1,stuff=-1):
             p_new = str(page + 1)
             older = '/l/' + p_new
             if stuff != -1:
-                older = '/s/' + str(stuff) + '/' + p_new 
+                older = '/s/' + str(stuff) + '/' + p_new
             logs.pop()
         if offset > 0:
             p_new = str(page - 1)
@@ -61,17 +61,16 @@ def get_logs(display_date,page=1,stuff=-1):
             older=newer=False
         if newer and older:
             spacer = True
-        
+
         for log in logs:
             log.daynr = log.date - START_DT - timedelta(days=-1)
-            if stuff != -1: 
+            if stuff != -1:
                 log.numbers.remove(stuff)
-            if display_date == 'short':
-                log.combo = log.date.strftime(LOG_DATE_SHORT)
-            if display_date == 'full':
-                log.combo = log.date.strftime(LOG_DATE)
         return [logs,older,newer,spacer]
-        
+
+def get_log(post):
+    return Log.get_by_id(post)
+
 def get_stuff(post):
     if post != 0:
         stuff = Stuff.all().filter('number = ',post).fetch(limit=1)
@@ -80,14 +79,14 @@ def get_stuff(post):
         return stuff[0]
     else:
         return False
-        
-def get_all_stuff():        
+
+def get_all_stuff():
     stuff_query = Stuff.all().order('number')
     stuff = stuff_query.fetch(limit=101)
     for s in stuff:
         s.status = 'ns'
         if s.progress > 0:
-            s.status = 's' 
+            s.status = 's'
         if s.completed:
             s.status = 'c'
     return stuff
@@ -98,14 +97,14 @@ def save_log(req, mode='edit'):
     if mode == 'new':
         log = Log()
         log.date = datetime.datetime.now() + timedelta(hours=UTCDIFF)
-    
+
     str_numbers = req.get('number').split(' ')
     log.numbers=[]
     for n in str_numbers:
         log.numbers.append(int(n))
     log.numbers.sort()
     log.content = req.get('content')
-    db.put(log)    
+    db.put(log)
 
 def save_stuff(req, mode='edit'):
     if mode == 'edit':
@@ -134,6 +133,8 @@ def save_increment(req):
         key = 'inc_'+str(s)
         inc = req.get(key)
         stuff.progress += int(inc)
+        if stuff.progress >= stuff.total:
+            stuff.completed = True
         stuff.save()
 
 def save_tt(req,mode):

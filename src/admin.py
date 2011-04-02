@@ -18,7 +18,7 @@ class EditEntry(webapp.RequestHandler):
         if users.is_current_user_admin():
             if mode == "log":
                 t_path = 'templates/admin-editlogs.html'
-                logs = models.get_logs('full')
+                logs = models.get_logs()
                 page = views.render_view(t_path, 'editlogs',logs[0])
             if mode == "stuff":
                 t_path = 'templates/admin-editstuff.html'
@@ -56,7 +56,7 @@ class WriteTtext(webapp.RequestHandler):
             self.redirect('/admin/edit_ttext')
         else:
             self.redirect('/')
-    
+
 # adding new entry from admin main
 class PostEntry(webapp.RequestHandler):
     def post(self, mode):

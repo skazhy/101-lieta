@@ -18,7 +18,7 @@ function display(button,mode) {
     $('.stuff_menu').css('display','inline');
     $(button).css('display','none');
     $('.edits').css('display','none');
-    $('.status_'+mode+'_div').css('display','block');
+    $('.'+mode+'_div').css('display','block');
 }
 </script>
 {% endblock header_includes %}
@@ -43,7 +43,7 @@ function display(button,mode) {
 			<input type="submit" value="Edit text"/>
 		</form>
 	{% endfor %}
-	
+
     {% for log in logs %}
 		<form class="editl" action="/admin/writel" method="post">
             <div class="grid_6 entry">
@@ -58,7 +58,7 @@ function display(button,mode) {
 		</form>
 	    <div class="clear"></div>
     {% endfor%}
-	
+
     {% for stuff in stufflist %}
         <form class="edits {{ stuff.status }}_div" action="/admin/writes" method="post">
 		<div class="grid_1">
@@ -69,13 +69,13 @@ function display(button,mode) {
 			<input type="text" size="95" name="content" value="{{ stuff.content }}" /><br />
 			<input type="text" size="4" name="progress" value="{{ stuff.progress }}" />
 			<input type="text" size="4" name="total" value="{{ stuff.total }}" />
-            <input type="submit" value="Labot" />	
+            <input type="submit" value="Labot" />
 		</div>
-        <div class="2">	
+        <div class="2">
             {% if stuff.completed %}
                 <span>Izpildīts</span>
 		    {% endif %}
-        </div>	
+        </div>
 		</form>
 	    <div class="clear"></div>
 	{% endfor %}

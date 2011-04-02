@@ -14,10 +14,14 @@ def render_view(t_path, view='static', values=None):
             'newer': values[2],
             'spacer': values[3],
         }
-    
+
     if view == 'stufflist':
-        template_values = { 
+        template_values = {
             'stufflist':values,
+    }
+    if view == 'logentry':
+        template_values = {
+            'log':values,
     }
     if view == 'stuffentry':
         md = Markdown()
@@ -34,15 +38,15 @@ def render_view(t_path, view='static', values=None):
         md = Markdown()
         conv_info = md.convert(values)
         template_values = {'tt': conv_info }
-    
+
     if view == 'editlogs':
         template_values = {'logs': values}
-    
+
     if view == 'editstuff':
         template_values = {'stufflist': values}
-    
+
     if view == 'edittt':
         template_values = {'tt': values}
-    
+
     path = os.path.join(os.path.dirname(__file__),t_path)
     return template.render(path,template_values)

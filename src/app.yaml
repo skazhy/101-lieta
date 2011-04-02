@@ -1,4 +1,4 @@
-application: 1001diena 
+application: 1001diena
 version: 2-0-6
 runtime: python
 api_version: 1
@@ -15,6 +15,9 @@ handlers:
   script: admin.py
 
 - url: /l/(\d{1,2})
+  script: main.py
+
+- url: /log/(\d)
   script: main.py
 
 - url: /s/(\d{1,2}|10[10])/(\d{1,2})

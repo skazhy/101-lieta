@@ -24,7 +24,7 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block content %}
-<div class="grid_8">	
+<div class="grid_8">
 {% if stuff %}
 <h1>#{{ stuff.number }} - {{ stuff.content }}</h1>
     <div id="stuff_progress"></div>
@@ -36,8 +36,7 @@ $(document).ready(function() {
             {{ log.display }}
     </div>
     <div class="afterEntry">
-        <span class="date"> {{ log.daynr.days }}. diena,</span>
-        <span class="date">{{ log.combo }}</span>
+        <abbr class="desc" title="{{ log.date|date:"Y.m.d. H:i" }}">{{ log.daynr.days }}. diena.</abbr>
         {% if log.numbers %}
             <br />
             <span class="desc">Citi saistītie mērķi:</span>
@@ -54,7 +53,7 @@ $(document).ready(function() {
     {% if spacer %}
         <span>|</span>
     {% endif %}
-    
+
     {% if older %}
         <a class="navbutton" href="{{ older }}">Vecāki pieraksti</a>
     {% endif %}
