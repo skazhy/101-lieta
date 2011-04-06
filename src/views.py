@@ -12,7 +12,7 @@ def render_view(t_path, view='static', values=None):
             'logs': values[0],
             'older': values[1],
             'newer': values[2],
-            'spacer': values[3],
+            'spacer': values[1] and values[2],
         }
 
     if view == 'stufflist':
@@ -32,7 +32,7 @@ def render_view(t_path, view='static', values=None):
             'logs': values[1][0],
             'older': values[1][1],
             'newer': values[1][2],
-            'spacer': values[1][3],
+            'spacer': values[1][1] and values[1][2],
         }
     if view == 'info':
         md = Markdown()

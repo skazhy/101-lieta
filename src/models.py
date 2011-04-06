@@ -33,7 +33,6 @@ def get_all_tt():
 def get_logs(page=1,stuff=-1):
         older = False
         newer = False
-        spacer = False
         offset = page*EPP-EPP
 
         log_query = Log.all()
@@ -59,14 +58,12 @@ def get_logs(page=1,stuff=-1):
                 newer = '/'
         if len(logs) == 0:
             older=newer=False
-        if newer and older:
-            spacer = True
 
         for log in logs:
             log.daynr = log.date - START_DT - timedelta(days=-1)
             if stuff != -1:
                 log.numbers.remove(stuff)
-        return [logs,older,newer,spacer]
+        return [logs,older,newer]
 
 def get_log(post):
     return Log.get_by_id(post)
