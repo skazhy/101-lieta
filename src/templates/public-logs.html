@@ -8,7 +8,7 @@ $(document).ready(function() {
 </script>
 {% endblock header_includes %}
 {% block content %}
-<div class="grid_7">
+<div class="grid_7" id="maincontent">
 {% for log in logs %}
     <div class="log_entry">
     {{ log.display }}

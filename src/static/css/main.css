@@ -18,7 +18,12 @@ a { text-decoration:none; }
 }
 
 
-#sidebar { padding-top:20px; }
+#sidebar { 
+    padding-top:20px;
+    position: fixed 
+}
+
+#maincontent { margin-left: 240px; }
 
 #footer {
     border-top: 1px dotted #b3d9e2;

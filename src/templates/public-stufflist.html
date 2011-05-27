@@ -27,7 +27,7 @@ function display(button,mode) {
 {% endblock sidebar_includes %}
 
 {% block content %}
-<div class="grid_9">
+<div class="grid_9" id="maincontent">
     {% for stuff in stufflist %}
         <div class="stuff_entry div_{{ stuff.status }}">
             <span class="{{ stuff.status }} stuff_nr">{{ stuff.number }}.</span>
