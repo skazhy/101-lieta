@@ -5,30 +5,26 @@
 <script type="text/javascript">
 $(function() {
     $('#numgen').click(function() {
-        var numbers = [{% for n in numbers %} {{ n }} {% if not forloop.last %},{% endif %}{% endfor %}]
-        var d = _.difference(_.range(1,102),numbers);
+        var d = _.difference(_.range(1,102),[{% for n in numbers %} {{ n }} {% if not forloop.last %},{% endif %}{% endfor %}]);
         var num = Math.floor(Math.random()*d.length);
         $('#stuffnum').val(d[num]);
         return false;
     });
-    $('#logadd').blur( function() { add_incrfields(); });
+    $('#logadd').blur( function() {
+        $('.logincr').remove();
+        var value = $('#logadd').val();
+        var fields = value.split(' ');
+        var uf = fields.unique();
+        if (uf.length) {
+        for(var i=0; i<uf.length; i++) {
+            $('#contentend').after('<div class="grid_1 logincr">'+
+                                    '<a class="goalLink" href="/s/'+uf[i]+'">#'+uf[i]+'</a></div>'+
+                                    '<div class="grid_4 logincr">'+
+                                    '<input type="text" class="logincr" name="inc_'+uf[i]+'" value="0"/>'+
+                                    '</div><div class="clear logincr"></div>');
+        }}
+    });
 });
-
-function add_incrfields() {
-    $('.logincr').remove();
-    var value = $('#logadd').val();
-    var fields = value.split(' ');
-    var uf = fields.unique();
-    if (uf.length) {
-    for(var i=0; i<uf.length; i++) {
-
-        $('#contentend').after('<div class="grid_1 logincr">'+
-                                '<a class="goalLink" href="/s/'+uf[i]+'">#'+uf[i]+'</a></div>'+
-                                '<div class="grid_4 logincr">'+
-                                '<input type="text" class="logincr" name="inc_'+uf[i]+'" value="0"/>'+
-                                '</div><div class="clear logincr"></div>');
-    }}
-};
 </script>
 {% endblock header_includes %}
 
