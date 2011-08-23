@@ -1,4 +1,5 @@
 from google.appengine.ext.webapp import template
+from google.appengine.api import users
 import os
 from markdown import Markdown
 
@@ -48,5 +49,8 @@ def render_view(t_path, view='static', values=None):
     if view == 'edittt':
         template_values = {'tt': values}
 
+    if view == 'add':
+        template_values = {'numbers': values }
     path = os.path.join(os.path.dirname(__file__),t_path)
+    template_values['admin'] = users.is_current_user_admin()
     return template.render(path,template_values)

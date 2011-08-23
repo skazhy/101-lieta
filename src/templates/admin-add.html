@@ -3,7 +3,14 @@
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="/js/adminutils.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
+    $('#numgen').click(function() {
+        var numbers = [{% for n in numbers %} {{ n }} {% if not forloop.last %},{% endif %}{% endfor %}]
+        var d = _.difference(_.range(1,102),numbers);
+        var num = Math.floor(Math.random()*d.length);
+        $('#stuffnum').val(d[num]);
+        return false;
+    });
     $('#logadd').blur( function() { add_incrfields(); });
 });
 
@@ -14,7 +21,7 @@ function add_incrfields() {
     var uf = fields.unique();
     if (uf.length) {
     for(var i=0; i<uf.length; i++) {
-        
+
         $('#contentend').after('<div class="grid_1 logincr">'+
                                 '<a class="goalLink" href="/s/'+uf[i]+'">#'+uf[i]+'</a></div>'+
                                 '<div class="grid_4 logincr">'+
@@ -34,15 +41,18 @@ function add_incrfields() {
 		<textarea id="logcontent" name="content" rows="3" cols="60"></textarea>
         <div class="clear" id="contentend"></div>
 	</form>
-	<h2>Add stuff</h2>
+	<h2>Pievienot mērķi sarakstam</h2>
 	<form action="/admin/post_stuff" method="post">
-		<div><input type="text" name="number" value="" /><div />
+		<div>
+            <input type="text" name="number" value="" id="stuffnum"/>
+            <button id="numgen">Nejaušs brīvs numurs</button>
+         <div />
 		<textarea name="content" rows="3" cols="60"></textarea>
 		<div><span>Progress:</span><input type="text" name="progress" value="0" /><div />
 		<div><span>Kopējais:</span><input type="text" name="total" value="" /><div />
         <div><input type="submit" value="Add stuff"></div>
 	</form>
-	<h2>Add template text</h2>
+	<h2>Pievienot šablona tekstu</h2>
 	<form action="/admin/post_ttext" method="post">
 	<div><input type="text" name="name_short" value="" /><div />
 	<textarea name="content" rows="3" cols="60"></textarea>

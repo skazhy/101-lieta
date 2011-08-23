@@ -6,8 +6,12 @@ import models, views
 class AdminMain(webapp.RequestHandler):
     def get(self):
         if users.is_current_user_admin():
+            stuff = models.get_all_stuff()
+            numbers = []
+            for s in stuff:
+                numbers.append(s.number)
             t_path = 'templates/admin-add.html'
-            admin_main = views.render_view(t_path)
+            admin_main = views.render_view(t_path, 'add', numbers)
             self.response.out.write(admin_main)
         else:
             self.redirect('/')

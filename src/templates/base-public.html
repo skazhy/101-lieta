@@ -16,17 +16,17 @@
             <li class="menu">
             	<a href="/stuff">101 lieta</a>
             </li>
-            <!-- 
-            <li class="menu">
-                <a href="">statistika</a>
-            </li>
-            -->
             <li class="menu">
                 <a href="/info">par projektu</a>
             </li>
+            {% if admin %}
+            <li class="menu">
+                <a href="/admin">admin</a>
+            </li>
+            {% endif %}
         </ul>
         {% block sidebar_includes %}{% endblock %}
-        
+
     </div>
     {% block content %}{% endblock %}
     <div class="clear"></div>
@@ -36,8 +36,8 @@
         <span class="desc">Darbojas uz </span><a class="footLink" href="http://code.google.com/appengine">App Engine</a>
         <span class="desc">|</span>
         <span class="desc">Valīds </span><a class="footLink" href="http://validator.w3.org/check?uri=http://www.101lieta.lv/">XHTML</a>
-        
-        
+
+
         <br />
         <span class="desc">MMX-MMXI</span>
         <br />
