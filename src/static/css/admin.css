@@ -32,3 +32,13 @@ p {
     color:#e8ebef;
     font-size:12px;
 }
+
+input.proc {
+    background-color: none;
+    border: none;
+}
+input.complete {
+    border-width: 1px;
+    background-color: #87a96b;
+    color: white;
+}

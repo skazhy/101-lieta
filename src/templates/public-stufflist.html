@@ -2,14 +2,13 @@
 {% block header_includes %}
 <script type="text/javascript">
 $(document).ready(function() {
-    $('.stuff_select').each( function() { this.onclick = function() { display(this, this.id) }});
-    $('#display_all').hide().click( function() { display_all(this); });
+    $('.stuff_select').each(function() { this.onclick = function() { display(this, this.id) }});
+    $('#display_all').hide().click(function() { 
+        $('.stuff_menu').add('.stuff_entry').show();
+        $(this).hide();
+    });
 });
-function display_all(button) {
-    $('.stuff_menu').add('.stuff_entry').show();
-    $(button).hide();
-}
-function display(button,mode) {
+function display(button, mode) {
     $('.stuff_menu').add('.div_'+mode).show();
     $('.stuff_entry').not('.div_'+mode).add(button).hide();
 }

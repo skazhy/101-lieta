@@ -2,9 +2,9 @@
 {% block header_includes %}
 <script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function() {
+$(function() {
     var forms = $('.numbers').toArray();
-    for (var i=0; i<forms.length;i++) {
+    for (var i=0; i<forms.length; i++) {
         var e = forms[i].value;
         var e = e.replace(/[L,\[\]]/g,"");
         forms[i].value = e;

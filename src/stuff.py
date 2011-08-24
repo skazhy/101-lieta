@@ -6,7 +6,6 @@ import models, views
 class StuffMain(webapp.RequestHandler):
     def get(self):
         stuff_page = self.getStuff()
-        # stuff_page = self.renderStuff()
         self.response.out.write(stuff_page)
 
     def getStuff(self):
@@ -20,7 +19,6 @@ class StuffMain(webapp.RequestHandler):
             return stuff_page
 
     def renderStuff(self):
-        # text = models.get_tt('stuff')
         t_path = 'templates/public-stufflist.html'
         stuff = models.get_all_stuff()
         return views.render_view(t_path, 'stufflist', stuff)

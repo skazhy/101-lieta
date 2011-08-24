@@ -1,58 +1,62 @@
 {% extends "base-admin.html" %}
 {% block header_includes %}
-<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script>
-<script type="text/javascript" src="/js/adminutils.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="/js/jquery-1.4.4.min.js"></script><script type="text/javascript">
 $(function() {
     $('#numgen').click(function() {
-        var d = _.difference(_.range(1,102),[{% for n in numbers %} {{ n }} {% if not forloop.last %},{% endif %}{% endfor %}]);
+        var d = _.difference(_.range(1,102),[{% for n in numbers %}{{ n }}{% if not forloop.last %}, {% endif %}{% endfor %}]);
         var num = Math.floor(Math.random()*d.length);
         $('#stuffnum').val(d[num]);
         return false;
     });
-    $('#logadd').blur( function() {
+    $('#logadd').blur(function() {
         $('.logincr').remove();
         var value = $('#logadd').val();
-        var fields = value.split(' ');
-        var uf = fields.unique();
-        if (uf.length) {
+        var uf = _.uniq(value.split(' '));
         for(var i=0; i<uf.length; i++) {
-            $('#contentend').after('<div class="grid_1 logincr">'+
-                                    '<a class="goalLink" href="/s/'+uf[i]+'">#'+uf[i]+'</a></div>'+
-                                    '<div class="grid_4 logincr">'+
-                                    '<input type="text" class="logincr" name="inc_'+uf[i]+'" value="0"/>'+
-                                    '</div><div class="clear logincr"></div>');
-        }}
+            if (uf[i]) $('#contentend').after('<div class="grid_1 logincr">'+
+                                              '<a class="goalLink" href="/s/'+uf[i]+'">#'+uf[i]+'</a></div>'+
+                                              '<div class="grid_4 logincr">'+
+                                              '<input type="text" class="logincr" name="inc_'+uf[i]+'" value="0"/>'+
+                                              '</div><div class="clear logincr"></div>');
+        }
     });
 });
 </script>
 {% endblock header_includes %}
 
 {% block content %}
-<div class="grid_12">
+<div class="grid_6">
     <h2>Pievienot pierakstu</h2>
 	<form id="logform" action="/admin/post_log" method="post" >
 	    <div><input id="logadd" type="text" name="number" value="" />
-        <input id="logadd" type="submit" value="Add log"></div>
+        <input id="logbutton" type="submit" value="Pievienot"></div>
 		<textarea id="logcontent" name="content" rows="3" cols="60"></textarea>
         <div class="clear" id="contentend"></div>
 	</form>
-	<h2>Pievienot mērķi sarakstam</h2>
+</div>
+<div class="grid_6">
+<h2>Pievienot mērķi sarakstam</h2>
 	<form action="/admin/post_stuff" method="post">
 		<div>
-            <input type="text" name="number" value="" id="stuffnum"/>
+            <input maxlength="3" size="5" type="text" name="number" value="" id="stuffnum"/>
             <button id="numgen">Nejaušs brīvs numurs</button>
+            <input type="submit" value="Pievienot">
          <div />
 		<textarea name="content" rows="3" cols="60"></textarea>
-		<div><span>Progress:</span><input type="text" name="progress" value="0" /><div />
-		<div><span>Kopējais:</span><input type="text" name="total" value="" /><div />
-        <div><input type="submit" value="Add stuff"></div>
+		<div>
+            <label for="stuffprog">Progress:</label>
+            <input type="text" maxlength="7" size="7" name="progress" value="0" id="stuffprog" />
+            <label for="stufftotal">Kopējais:</label>
+            <input type="text" maxlength="7" size="7" name="total" value="" id="stufftotal" />
+        <div />
 	</form>
 	<h2>Pievienot šablona tekstu</h2>
 	<form action="/admin/post_ttext" method="post">
-	<div><input type="text" name="name_short" value="" /><div />
+	<div>
+        <input type="text" name="name_short" value="" />
+        <input type="submit" value="Pievienot">
+    </div>
 	<textarea name="content" rows="3" cols="60"></textarea>
-    <div><input type="submit" value="Add txt"></div>
 	</form>
 </div>
 {% endblock content %}
